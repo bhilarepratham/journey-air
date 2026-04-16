@@ -1053,3 +1053,15 @@ document.querySelectorAll('.quick-tile, .info-card, .alert-card, .option-card, .
     el.addEventListener('touchstart', function() { this.style.transform = 'scale(0.97)'; }, { passive: true });
     el.addEventListener('touchend', function() { this.style.transform = ''; }, { passive: true });
 });
+
+// ============ SPLASH SCREEN LOGIC ============
+window.addEventListener('DOMContentLoaded', () => {
+    const splash = document.getElementById('screen-splash');
+    if (splash && splash.classList.contains('active')) {
+        setTimeout(() => {
+            // After splash, show onboarding if not a returning user, else screen-login
+            // For now, let's just go to onboarding directly.
+            showScreen('screen-onboarding');
+        }, 2800); // 2.8 seconds splash time
+    }
+});

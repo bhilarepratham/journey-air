@@ -1,0 +1,2702 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Journey Air — Passenger Certainty Platform</title>
+  <meta name="description"
+    content="Journey Air SDK prototype — proactive disruption recovery, connection guardian, and airline operations dashboard.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <!-- View Switcher -->
+  <div id="view-switcher">
+    <button class="view-btn active" data-view="passenger" id="btn-passenger-view">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="5" y="2" width="14" height="20" rx="2" />
+        <circle cx="12" cy="18" r="1" />
+      </svg>
+      Passenger App
+    </button>
+    <button class="view-btn" data-view="dashboard" id="btn-dashboard-view">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <path d="M3 9h18M9 21V9" />
+      </svg>
+      Airline Dashboard
+    </button>
+  </div>
+
+  <!-- ======== PASSENGER MOBILE APP ======== -->
+  <div id="passenger-app" class="app-view active">
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <!-- Status Bar -->
+        <div class="status-bar">
+          <span class="airline-logo"><svg class="logo-mark" width="20" height="20" viewBox="0 0 32 32">
+              <circle cx="16" cy="16" r="14" fill="#0770e3" />
+              <path d="M9 20 L16 12 L23 20" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M16 12 L16 22" stroke="white" stroke-width="2" stroke-linecap="round" />
+              <path d="M12 17 L20 17" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.7" />
+            </svg> Journey Air</span>
+          <span class="status-time" id="phone-time">10:36</span>
+          <span class="notification-bell" id="notif-bell">🔔<span class="notif-dot"></span></span>
+        </div>
+
+        <!-- Screens Container -->
+        <div class="screens-container">
+
+          <!-- ======== ONBOARDING OVERLAY ======== -->
+          <div class="screen active" id="screen-onboarding">
+            <div class="onboarding-wrap">
+              <div class="ob-slides" id="ob-slides">
+                <!-- Slide 1 — Certainty -->
+                <div class="ob-slide active" data-slide="0">
+                  <div class="ob-visual">
+                    <div class="ob-emoji-scene">
+                      <div class="ob-float-icon ob-fi-1">✈️</div>
+                      <div class="ob-float-icon ob-fi-2">🛡️</div>
+                      <div class="ob-float-icon ob-fi-3">💙</div>
+                    </div>
+                    <div class="ob-illustration">
+                      <svg width="120" height="120" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="56" fill="#e8f2ff" stroke="#0770e3" stroke-width="2" />
+                        <path d="M35 75 L60 45 L85 75" stroke="#0770e3" stroke-width="4" fill="none"
+                          stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M60 45 L60 85" stroke="#0770e3" stroke-width="4" stroke-linecap="round" />
+                        <path d="M45 65 L75 65" stroke="#0770e3" stroke-width="3" stroke-linecap="round"
+                          opacity="0.5" />
+                      </svg>
+                    </div>
+                  </div>
+                  <h2 class="ob-title">Travel with certainty</h2>
+                  <p class="ob-desc">Flight delays and missed connections can be stressful. Journey Air watches over
+                    your entire trip and acts <em>before</em> you even have to worry.</p>
+                </div>
+
+                <!-- Slide 2 — Protection -->
+                <div class="ob-slide" data-slide="1">
+                  <div class="ob-visual">
+                    <div class="ob-emoji-scene">
+                      <div class="ob-float-icon ob-fi-1">🧳</div>
+                      <div class="ob-float-icon ob-fi-2">📍</div>
+                      <div class="ob-float-icon ob-fi-3">🔔</div>
+                    </div>
+                    <div class="ob-illustration">
+                      <svg width="120" height="120" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="56" fill="#f0fdf4" stroke="#22c55e" stroke-width="2" />
+                        <rect x="35" y="40" width="50" height="40" rx="8" fill="none" stroke="#22c55e"
+                          stroke-width="3" />
+                        <path d="M50 40V32a10 10 0 0120 0v8" fill="none" stroke="#22c55e" stroke-width="3" />
+                        <circle cx="60" cy="58" r="5" fill="#22c55e" />
+                        <path d="M60 63v7" stroke="#22c55e" stroke-width="3" stroke-linecap="round" />
+                      </svg>
+                    </div>
+                  </div>
+                  <h2 class="ob-title">Every detail, protected</h2>
+                  <p class="ob-desc">Your bags are tracked in real-time. Your connection path is mapped. Your backup
+                    flights are ready — even if you never need them.</p>
+                </div>
+
+                <!-- Slide 3 — Recovery -->
+                <div class="ob-slide" data-slide="2">
+                  <div class="ob-visual">
+                    <div class="ob-emoji-scene">
+                      <div class="ob-float-icon ob-fi-1">⚡</div>
+                      <div class="ob-float-icon ob-fi-2">🔄</div>
+                      <div class="ob-float-icon ob-fi-3">🎯</div>
+                    </div>
+                    <div class="ob-illustration">
+                      <svg width="120" height="120" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="56" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" />
+                        <path d="M40 60a20 20 0 0134-14" fill="none" stroke="#f59e0b" stroke-width="3"
+                          stroke-linecap="round" />
+                        <path d="M74 46l0-10 10 0" fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path d="M80 60a20 20 0 01-34 14" fill="none" stroke="#f59e0b" stroke-width="3"
+                          stroke-linecap="round" />
+                        <path d="M46 74l0 10-10 0" fill="none" stroke="#f59e0b" stroke-width="3" stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                    </div>
+                  </div>
+                  <h2 class="ob-title">One tap to recover</h2>
+                  <p class="ob-desc">When disruptions happen, we prepare instant recovery options — rebooking, partner
+                    airlines, terminal navigation — all in <strong>one tap</strong>.</p>
+                </div>
+              </div>
+
+              <!-- Indicators & Actions -->
+              <div class="ob-indicators">
+                <span class="ob-dot active" data-dot="0"></span>
+                <span class="ob-dot" data-dot="1"></span>
+                <span class="ob-dot" data-dot="2"></span>
+              </div>
+              <button class="ob-next-btn" id="ob-next-btn" onclick="nextOnboardingSlide()">Next</button>
+              <button class="ob-skip-btn" onclick="finishOnboarding()">Skip</button>
+            </div>
+          </div>
+
+          <!-- ======== LOGIN SCREEN ======== -->
+          <div class="screen" id="screen-login">
+            <div class="screen-scroll">
+              <div class="login-container">
+                <div class="login-logo">
+                  <svg width="48" height="48" viewBox="0 0 32 32">
+                    <circle cx="16" cy="16" r="14" fill="#0770e3" />
+                    <path d="M9 20 L16 12 L23 20" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                    <path d="M16 12 L16 22" stroke="white" stroke-width="2" stroke-linecap="round" />
+                    <path d="M12 17 L20 17" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.7" />
+                  </svg>
+                </div>
+                <h2 class="login-title">Welcome to Journey Air</h2>
+                <p class="login-subtitle">Sign in so we can watch over your trips and act for you when it matters most.
+                </p>
+
+                <div class="login-form">
+                  <div class="input-group">
+                    <label class="input-label">Email address</label>
+                    <input type="email" class="input-field" id="login-email" placeholder="you@example.com"
+                      value="luthfi@example.com">
+                  </div>
+                  <div class="input-group">
+                    <label class="input-label">Password</label>
+                    <input type="password" class="input-field" id="login-password" placeholder="••••••••"
+                      value="password123">
+                  </div>
+                  <button class="login-btn primary-btn" onclick="handleLogin()">
+                    Sign In
+                  </button>
+                  <div class="login-divider">
+                    <span>or continue with</span>
+                  </div>
+                  <div class="social-logins">
+                    <button class="social-btn" onclick="handleLogin()">
+                      <svg width="18" height="18" viewBox="0 0 24 24">
+                        <path
+                          d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"
+                          fill="#4285F4" />
+                        <path
+                          d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                          fill="#34A853" />
+                        <path
+                          d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                          fill="#FBBC05" />
+                        <path
+                          d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                          fill="#EA4335" />
+                      </svg>
+                      Google
+                    </button>
+                    <button class="social-btn" onclick="handleLogin()">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="#000">
+                        <path
+                          d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.32 2.32-2.14 4.41-3.74 4.25z" />
+                      </svg>
+                      Apple
+                    </button>
+                  </div>
+                  <p class="login-terms">By signing in, you agree to our Terms of Service and Privacy Policy</p>
+                </div>
+
+                <!-- Emotional trust indicators -->
+                <div class="trust-indicators">
+                  <div class="trust-item">
+                    <span class="trust-icon">🔒</span>
+                    <span>Bank-level encryption</span>
+                  </div>
+                  <div class="trust-item">
+                    <span class="trust-icon">🌍</span>
+                    <span>1.2M passengers protected</span>
+                  </div>
+                  <div class="trust-item">
+                    <span class="trust-icon">⭐</span>
+                    <span>4.8 star rating</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ======== ADD FLIGHT SCREEN ======== -->
+          <div class="screen" id="screen-addflight">
+            <div class="screen-scroll">
+              <div class="addflight-container">
+                <div class="af-header">
+                  <h2 class="af-title">Add your flight</h2>
+                  <p class="af-subtitle">Enter your booking reference or flight number, and we'll start watching over
+                    your trip immediately.</p>
+                </div>
+
+                <!-- Emotional reassurance -->
+                <div class="af-assurance">
+                  <div class="af-assurance-icon">🛡️</div>
+                  <p>Once added, we'll monitor <strong>everything</strong> — delays, gate changes, connection risks,
+                    baggage — so you don't have to.</p>
+                </div>
+
+                <div class="af-tabs">
+                  <button class="af-tab active" onclick="switchAfTab('booking')" id="af-tab-booking">Booking
+                    Reference</button>
+                  <button class="af-tab" onclick="switchAfTab('flight')" id="af-tab-flight">Flight Number</button>
+                </div>
+
+                <!-- Booking Reference Entry -->
+                <div class="af-panel active" id="af-panel-booking">
+                  <div class="input-group">
+                    <label class="input-label">Booking reference</label>
+                    <input type="text" class="input-field input-large" id="af-booking-ref" placeholder="e.g. JA-X7K9M2"
+                      value="JA-X7K9M2" maxlength="10"
+                      style="text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">
+                    <span class="input-hint">Found on your confirmation email or e-ticket</span>
+                  </div>
+                  <div class="input-group">
+                    <label class="input-label">Last name</label>
+                    <input type="text" class="input-field" id="af-lastname" placeholder="e.g. Smith" value="Luthfi">
+                  </div>
+                </div>
+
+                <!-- Flight Number Entry -->
+                <div class="af-panel" id="af-panel-flight">
+                  <div class="input-group">
+                    <label class="input-label">Flight number</label>
+                    <input type="text" class="input-field input-large" id="af-flight-num" placeholder="e.g. JA 204"
+                      style="text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">
+                  </div>
+                  <div class="input-group">
+                    <label class="input-label">Travel date</label>
+                    <input type="date" class="input-field" id="af-date" value="2026-04-13">
+                  </div>
+                </div>
+
+                <button class="login-btn primary-btn af-search-btn" id="af-search-btn" onclick="searchFlight()">
+                  <span id="af-btn-text">Find my flight</span>
+                  <span id="af-btn-loading" class="hidden">
+                    <span class="mini-spinner"></span> Searching...
+                  </span>
+                </button>
+
+                <!-- Flight Found Result -->
+                <div class="af-result hidden" id="af-result">
+                  <div class="af-found-card">
+                    <div class="af-found-status">✅ Flight found!</div>
+                    <div class="af-found-route">
+                      <div class="af-found-city">
+                        <span class="af-city-code">SFO</span>
+                        <span class="af-city-name">San Francisco</span>
+                      </div>
+                      <div class="af-found-arrow">→</div>
+                      <div class="af-found-city">
+                        <span class="af-city-code">LHR</span>
+                        <span class="af-city-name">London</span>
+                      </div>
+                    </div>
+                    <div class="af-found-details">
+                      <span>JA204 · 13 Apr 2026</span>
+                      <span>Departs 10:30 AM (delayed to 12:15 PM)</span>
+                    </div>
+                    <div class="af-found-emotional">
+                      <span class="af-shield">🛡️</span>
+                      <span>We'll start monitoring this flight immediately. You'll be the first to know about any
+                        changes.</span>
+                    </div>
+                  </div>
+                  <button class="login-btn primary-btn" onclick="confirmAddFlight()">Add flight & protect my
+                    trip</button>
+                </div>
+
+                <!-- Recent Bookings -->
+                <div class="af-recent" id="af-recent">
+                  <div class="af-recent-title">Or try a demo flight</div>
+                  <div class="af-recent-item" onclick="quickAddFlight('JA-X7K9M2')">
+                    <div class="af-recent-icon">✈️</div>
+                    <div class="af-recent-info">
+                      <div class="af-recent-route">SFO → LHR</div>
+                      <div class="af-recent-ref">JA-X7K9M2 · 13 Apr · JA204</div>
+                    </div>
+                    <div class="af-recent-arrow">→</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ======== PROFILE SCREEN ======== -->
+          <div class="screen" id="screen-profile">
+            <div class="screen-scroll">
+              <button class="back-btn" onclick="showScreen('screen-home')">← Back</button>
+
+              <!-- Profile Header -->
+              <div class="v2-profile-header">
+                <div class="v2-profile-avatar">L</div>
+                <h2 class="v2-profile-name">Luthfi</h2>
+                <span class="v2-profile-tier">
+                  <span class="v2-tier-dot"></span>
+                  Gold Member
+                </span>
+                <p class="v2-profile-email">luthfi@example.com</p>
+              </div>
+
+              <!-- Communication Preference -->
+              <div class="v2-data-card">
+                <div class="v2-card-header">COMMUNICATION STYLE</div>
+                <p class="v2-rec-desc" style="margin-top:-4px">How we talk to you during disruptions.</p>
+
+                <div class="v2-comfort-opts">
+                  <div class="v2-comfort-opt active" id="comfort-proactive" onclick="setComfortLevel('proactive')">
+                    <span class="v2-co-icon">🛡️</span>
+                    <div class="v2-co-body">
+                      <div class="v2-co-name">Proactive</div>
+                      <div class="v2-co-desc">Notify every change. Prepare backup options.</div>
+                    </div>
+                    <span class="v2-co-check">✓</span>
+                  </div>
+                  <div class="v2-comfort-opt" id="comfort-balanced" onclick="setComfortLevel('balanced')">
+                    <span class="v2-co-icon">⚖️</span>
+                    <div class="v2-co-body">
+                      <div class="v2-co-name">Balanced</div>
+                      <div class="v2-co-desc">Only when something needs my attention.</div>
+                    </div>
+                    <span class="v2-co-check">✓</span>
+                  </div>
+                  <div class="v2-comfort-opt" id="comfort-calm" onclick="setComfortLevel('calm')">
+                    <span class="v2-co-icon">🧘</span>
+                    <div class="v2-co-body">
+                      <div class="v2-co-name">Calm</div>
+                      <div class="v2-co-desc">Fix things quietly. Alert me only when I need to act.</div>
+                    </div>
+                    <span class="v2-co-check">✓</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Notifications -->
+              <div class="v2-data-card">
+                <div class="v2-card-header">NOTIFICATIONS</div>
+                <div class="toggle-row">
+                  <div class="toggle-info">
+                    <div class="toggle-label">Delay alerts</div>
+                    <div class="toggle-desc">Gate and time changes</div>
+                  </div>
+                  <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="v2-data-divider"></div>
+                <div class="toggle-row">
+                  <div class="toggle-info">
+                    <div class="toggle-label">Connection warnings</div>
+                    <div class="toggle-desc">When transfer time drops below safe</div>
+                  </div>
+                  <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="v2-data-divider"></div>
+                <div class="toggle-row">
+                  <div class="toggle-info">
+                    <div class="toggle-label">Baggage tracking</div>
+                    <div class="toggle-desc">Live bag location updates</div>
+                  </div>
+                  <label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+                </div>
+                <div class="v2-data-divider"></div>
+                <div class="toggle-row">
+                  <div class="toggle-info">
+                    <div class="toggle-label">Auto-recovery</div>
+                    <div class="toggle-desc">Rebook automatically if connection missed</div>
+                  </div>
+                  <label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label>
+                </div>
+              </div>
+
+              <!-- Travel Preferences -->
+              <div class="v2-data-card">
+                <div class="v2-card-header">TRAVEL PREFERENCES</div>
+                <div class="v2-data-row">
+                  <span class="v2-data-key">Seat preference</span>
+                  <span class="v2-data-val">Window</span>
+                </div>
+                <div class="v2-data-divider"></div>
+                <div class="v2-data-row">
+                  <span class="v2-data-key">Meal preference</span>
+                  <span class="v2-data-val">Standard</span>
+                </div>
+                <div class="v2-data-divider"></div>
+                <div class="v2-data-row">
+                  <span class="v2-data-key">Contact method</span>
+                  <span class="v2-data-val">Push + Email</span>
+                </div>
+                <div class="v2-data-divider"></div>
+                <div class="v2-data-row">
+                  <span class="v2-data-key">Language</span>
+                  <span class="v2-data-val">English</span>
+                </div>
+              </div>
+
+              <!-- Account Links -->
+              <div class="v2-data-card">
+                <div class="v2-card-header">ACCOUNT</div>
+                <div class="v2-link-row" onclick="">
+                  <span class="v2-data-key">Saved boarding passes</span>
+                  <span class="fc-arrow">›</span>
+                </div>
+                <div class="v2-data-divider"></div>
+                <div class="v2-link-row" onclick="">
+                  <span class="v2-data-key">Partner airline accounts</span>
+                  <span class="fc-arrow">›</span>
+                </div>
+                <div class="v2-data-divider"></div>
+                <div class="v2-link-row" onclick="">
+                  <span class="v2-data-key">Trip history</span>
+                  <span class="fc-arrow">›</span>
+                </div>
+                <div class="v2-data-divider"></div>
+                <div class="v2-link-row" onclick="">
+                  <span class="v2-data-key">Privacy & data</span>
+                  <span class="fc-arrow">›</span>
+                </div>
+              </div>
+
+              <button class="v2-signout-btn" onclick="handleLogout()">Sign Out</button>
+
+              <div style="height: 40px;"></div>
+            </div>
+          </div>
+
+          <!-- Trip Home Screen -->
+          <div class="screen" id="screen-home">
+            <div class="screen-scroll">
+
+              <!-- Greeting -->
+              <div class="welcome-hero-clean">
+                <div class="welcome-top-row">
+                  <div>
+                    <div class="greeting" id="greeting-text">Good morning, Luthfi</div>
+                    <div class="welcome-sub-clean">Everything's on track</div>
+                  </div>
+                  <div class="profile-avatar" onclick="showScreen('screen-profile')">L</div>
+                </div>
+              </div>
+
+              <!-- Active Trip Card -->
+              <div class="trip-card-v2">
+                <div class="tc-header">
+                  <span class="tc-label">ACTIVE TRIP</span>
+                  <span class="tc-status-dot status-dot-amber"></span>
+                  <span class="tc-status-text">Delayed</span>
+                </div>
+
+                <div class="tc-route">
+                  <div class="tc-city">
+                    <span class="tc-code">SFO</span>
+                    <span class="tc-name">San Francisco</span>
+                  </div>
+                  <div class="tc-flight-line">
+                    <div class="tc-line"></div>
+                    <div class="tc-plane">✈</div>
+                    <div class="tc-line"></div>
+                  </div>
+                  <div class="tc-city">
+                    <span class="tc-code">LHR</span>
+                    <span class="tc-name">London</span>
+                  </div>
+                </div>
+
+                <div class="tc-meta">
+                  <div class="tc-meta-item">
+                    <span class="tc-meta-label">Flight</span>
+                    <span class="tc-meta-value">JA204</span>
+                  </div>
+                  <div class="tc-meta-item">
+                    <span class="tc-meta-label">Departs</span>
+                    <span class="tc-meta-value" id="depart-time">12:15 PM</span>
+                    <span class="tc-meta-strike">10:30 AM</span>
+                  </div>
+                  <div class="tc-meta-item">
+                    <span class="tc-meta-label">Gate</span>
+                    <span class="tc-meta-value">B14</span>
+                  </div>
+                  <div class="tc-meta-item">
+                    <span class="tc-meta-label">Seat</span>
+                    <span class="tc-meta-value">14A</span>
+                  </div>
+                </div>
+
+                <!-- Inline Status Row -->
+                <div class="tc-status-row">
+                  <div class="tc-status-chip tc-chip-amber" onclick="showScreen('screen-guardian')">
+                    <span class="tc-chip-dot"></span>
+                    <span>Connection</span>
+                    <strong>At Risk</strong>
+                  </div>
+                  <div class="tc-status-chip tc-chip-green" onclick="showScreen('screen-baggage')">
+                    <span class="tc-chip-dot"></span>
+                    <span>Bag</span>
+                    <strong>Loaded</strong>
+                  </div>
+                  <div class="tc-status-chip tc-chip-green" onclick="showScreen('screen-boardingpass')">
+                    <span class="tc-chip-dot"></span>
+                    <span>Board</span>
+                    <strong>Group 2</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Disruption Alert -->
+              <div class="alert-card-v2" id="disruption-alert" onclick="showScreen('screen-disruption')">
+                <div class="alert-v2-icon">⚠</div>
+                <div class="alert-v2-body">
+                  <div class="alert-v2-title">Your London connection is at risk</div>
+                  <div class="alert-v2-desc">We've prepared 3 recovery options — one tap to fix.</div>
+                </div>
+                <div class="alert-v2-action">→</div>
+              </div>
+
+              <!-- Next Action -->
+              <div class="next-action-v2">
+                <div class="na-ring">
+                  <svg width="40" height="40" viewBox="0 0 40 40">
+                    <circle cx="20" cy="20" r="17" fill="none" stroke="#e8eaf0" stroke-width="2.5"/>
+                    <circle cx="20" cy="20" r="17" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-dasharray="107" stroke-dashoffset="27" stroke-linecap="round" transform="rotate(-90 20 20)"/>
+                  </svg>
+                  <span class="na-ring-text">1:20</span>
+                </div>
+                <div class="na-body">
+                  <div class="na-title">Gate opens in 1h 20m</div>
+                  <div class="na-sub">Terminal Int'l · Gate B14</div>
+                </div>
+              </div>
+
+              <!-- Explore Section -->
+              <div class="explore-section">
+                <div class="explore-header">EXPLORE YOUR TRIP</div>
+                <div class="feature-grid">
+                  <div class="feature-card" onclick="openStandaloneFeature('screen-seatfit')">
+                    <div class="fc-icon-wrap fc-purple">🪑</div>
+                    <div class="fc-body">
+                      <div class="fc-title">Seat Preview</div>
+                      <div class="fc-desc">Check your legroom comfort</div>
+                    </div>
+                    <div class="fc-arrow">›</div>
+                  </div>
+                  <div class="feature-card" onclick="showScreen('screen-boardingpass')">
+                    <div class="fc-icon-wrap fc-blue">🎫</div>
+                    <div class="fc-body">
+                      <div class="fc-title">Boarding Passes</div>
+                      <div class="fc-desc">View passes & check in</div>
+                    </div>
+                    <span class="fc-badge fc-badge-green">Ready</span>
+                    <div class="fc-arrow">›</div>
+                  </div>
+                  <div class="feature-card" onclick="showScreen('screen-baggage')">
+                    <div class="fc-icon-wrap fc-emerald">🧳</div>
+                    <div class="fc-body">
+                      <div class="fc-title">Baggage Tracking</div>
+                      <div class="fc-desc">Live location on map</div>
+                    </div>
+                    <span class="fc-badge fc-badge-green">Loaded</span>
+                    <div class="fc-arrow">›</div>
+                  </div>
+                  <div class="feature-card" onclick="showScreen('screen-guardian')">
+                    <div class="fc-icon-wrap fc-amber">🛡️</div>
+                    <div class="fc-body">
+                      <div class="fc-title">Connection Guard</div>
+                      <div class="fc-desc">Gate-to-gate directions</div>
+                    </div>
+                    <span class="fc-badge fc-badge-amber">At Risk</span>
+                    <div class="fc-arrow">›</div>
+                  </div>
+                  <div class="feature-card" onclick="showScreen('screen-support')">
+                    <div class="fc-icon-wrap fc-sky">💬</div>
+                    <div class="fc-body">
+                      <div class="fc-title">AI Assistant</div>
+                      <div class="fc-desc">Chat or speak to an agent</div>
+                    </div>
+                    <span class="fc-badge fc-badge-blue">Online</span>
+                    <div class="fc-arrow">›</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Journey Demo -->
+              <div class="demo-card" onclick="startJourneyDemo()">
+                <div class="demo-play">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><polygon points="5,3 19,12 5,21"/></svg>
+                </div>
+                <div class="demo-body">
+                  <div class="demo-title">Full Journey Demo</div>
+                  <div class="demo-desc">Seat selection → boarding → flight → arrival</div>
+                </div>
+                <div class="fc-arrow">›</div>
+              </div>
+
+              <!-- Destination -->
+              <div class="dest-bar">
+                <span class="dest-bar-flag">🇬🇧</span>
+                <span class="dest-bar-text">London · 14°C · Cloudy</span>
+                <span class="dest-bar-time" id="london-time">5:09 PM</span>
+              </div>
+
+              <div style="height: 16px;"></div>
+            </div>
+          </div>
+
+          <!-- Disruption Alert Screen -->
+          <div class="screen" id="screen-disruption">
+            <div class="screen-scroll">
+              <button class="back-btn" onclick="showScreen('screen-home')">← Back</button>
+              <div class="disruption-banner amber">
+                <div class="disruption-icon">⚠️</div>
+                <div class="disruption-headline">Your flight has been delayed 1h 45m</div>
+              </div>
+              <div class="disruption-explain">
+                JA204 is running late due to a late incoming aircraft. Your connection to London Heathrow on JA512 (2:05
+                PM) is now at risk.
+              </div>
+              <div class="impact-summary">
+                <span class="impact-icon">⏱</span>
+                <span>Your 2:05 PM London connection is now tight — 38 minutes to transfer.</span>
+              </div>
+              <button class="primary-cta" id="btn-see-options" onclick="showScreen('screen-recovery')">See your recovery
+                options</button>
+              <button class="secondary-cta" onclick="showScreen('screen-support')">Speak to an agent</button>
+            </div>
+          </div>
+
+          <!-- Recovery Options Screen -->
+          <div class="screen" id="screen-recovery">
+            <div class="screen-scroll">
+              <button class="back-btn" onclick="showScreen('screen-disruption')">← Back</button>
+              <div class="section-header">Your recovery options — all fee-free</div>
+              <div class="alert-mini">JA204 delayed 1h 45m · London connection at risk</div>
+
+              <!-- Compare toggle -->
+              <div class="compare-toggle">
+                <button class="compare-btn active" id="compare-cards-btn"
+                  onclick="setRecoveryView('cards')">Cards</button>
+                <button class="compare-btn" id="compare-table-btn" onclick="setRecoveryView('table')">Compare</button>
+              </div>
+
+              <!-- Cards View -->
+              <div id="recovery-cards-view">
+                <div class="option-card recommended" id="option-1" onclick="selectOption(1)">
+                  <div class="option-card-top">
+                    <div class="rec-badge">✦ Recommended</div>
+                    <div class="option-title">JA712 via Chicago</div>
+                    <div class="option-detail">
+                      <span class="badge badge-airline">Same airline</span>
+                      <span class="badge badge-time">Arrives 7:20 AM +1</span>
+                    </div>
+                    <div class="option-desc">Direct reroute via ORD. Arrives 40 min earlier than your original plan.
+                    </div>
+                    <div class="option-arrival"><span class="label">vs original:</span> <span class="value green">40 min
+                        earlier</span></div>
+                  </div>
+                  <div class="option-expand" id="expand-1">
+                    <div class="expand-row"><span class="expand-label">Route</span><span class="expand-val">SFO → ORD →
+                        LHR</span></div>
+                    <div class="expand-row"><span class="expand-label">Departs</span><span class="expand-val">1:30 PM
+                        today</span></div>
+                    <div class="expand-row"><span class="expand-label">Arrives</span><span class="expand-val">7:20 AM +1
+                        day</span></div>
+                    <div class="expand-row"><span class="expand-label">Layover</span><span class="expand-val">2h 15m in
+                        Chicago</span></div>
+                    <div class="expand-row"><span class="expand-label">Seat</span><span class="expand-val">14A (Window)
+                        — kept</span></div>
+                    <div class="expand-row"><span class="expand-label">Baggage</span><span
+                        class="expand-val">Auto-rerouted ✓</span></div>
+                    <div class="expand-row"><span class="expand-label">Cost</span><span class="expand-val green">No
+                        additional fee</span></div>
+                  </div>
+                  <button class="expand-toggle" onclick="event.stopPropagation(); toggleExpand(1)">Show flight details
+                    ▾</button>
+                </div>
+
+                <div class="option-card" id="option-2" onclick="selectOption(2)">
+                  <div class="option-card-top">
+                    <div class="option-title">BA882 Direct to London</div>
+                    <div class="option-detail">
+                      <span class="badge badge-partner">Partner airline</span>
+                      <span class="badge badge-time">Arrives 6:55 AM +1</span>
+                    </div>
+                    <div class="option-desc">British Airways direct flight. Earlier arrival, partner airline ticket.
+                    </div>
+                    <div class="option-arrival"><span class="label">vs original:</span> <span class="value green">1h 05m
+                        earlier</span></div>
+                  </div>
+                  <div class="option-expand" id="expand-2">
+                    <div class="expand-row"><span class="expand-label">Route</span><span class="expand-val">SFO → LHR
+                        (direct)</span></div>
+                    <div class="expand-row"><span class="expand-label">Departs</span><span class="expand-val">2:45 PM
+                        today</span></div>
+                    <div class="expand-row"><span class="expand-label">Arrives</span><span class="expand-val">6:55 AM +1
+                        day</span></div>
+                    <div class="expand-row"><span class="expand-label">Layover</span><span class="expand-val">None —
+                        direct flight</span></div>
+                    <div class="expand-row"><span class="expand-label">Seat</span><span class="expand-val">22C (Aisle) —
+                        new</span></div>
+                    <div class="expand-row"><span class="expand-label">Baggage</span><span
+                        class="expand-val">Auto-rerouted ✓</span></div>
+                    <div class="expand-row"><span class="expand-label">Cost</span><span class="expand-val green">No
+                        additional fee</span></div>
+                  </div>
+                  <button class="expand-toggle" onclick="event.stopPropagation(); toggleExpand(2)">Show flight details
+                    ▾</button>
+                </div>
+
+                <div class="option-card" id="option-3" onclick="selectOption(3)">
+                  <div class="option-card-top">
+                    <div class="option-title">JA204 (Stay on this flight)</div>
+                    <div class="option-detail">
+                      <span class="badge badge-airline">Same airline</span>
+                      <span class="badge badge-hotel">Connection rebooked</span>
+                    </div>
+                    <div class="option-desc">Stay on JA204. We'll rebook your London connection to the next available.
+                    </div>
+                    <div class="option-arrival"><span class="label">vs original:</span> <span class="value red">3h 20m
+                        later</span></div>
+                  </div>
+                  <div class="option-expand" id="expand-3">
+                    <div class="expand-row"><span class="expand-label">Route</span><span class="expand-val">SFO → JFK →
+                        LHR</span></div>
+                    <div class="expand-row"><span class="expand-label">Departs</span><span class="expand-val">12:15 PM
+                        today (delayed)</span></div>
+                    <div class="expand-row"><span class="expand-label">Arrives</span><span class="expand-val">11:20 AM
+                        +1 day</span></div>
+                    <div class="expand-row"><span class="expand-label">Layover</span><span class="expand-val">3h 40m in
+                        New York JFK</span></div>
+                    <div class="expand-row"><span class="expand-label">Seat</span><span class="expand-val">14A (Window)
+                        — kept</span></div>
+                    <div class="expand-row"><span class="expand-label">Baggage</span><span class="expand-val">Stays with
+                        you ✓</span></div>
+                    <div class="expand-row"><span class="expand-label">Cost</span><span class="expand-val green">No
+                        additional fee</span></div>
+                  </div>
+                  <button class="expand-toggle" onclick="event.stopPropagation(); toggleExpand(3)">Show flight details
+                    ▾</button>
+                </div>
+              </div>
+
+              <!-- Comparison Table View -->
+              <div id="recovery-table-view" class="hidden">
+                <div class="compare-table">
+                  <div class="compare-header">
+                    <div class="compare-col label-col"></div>
+                    <div class="compare-col" onclick="selectOption(1)"><span class="compare-opt-title">JA712</span><span
+                        class="compare-rec">★ Rec</span></div>
+                    <div class="compare-col" onclick="selectOption(2)"><span class="compare-opt-title">BA882</span>
+                    </div>
+                    <div class="compare-col" onclick="selectOption(3)"><span class="compare-opt-title">JA204</span>
+                    </div>
+                  </div>
+                  <div class="compare-row">
+                    <div class="compare-col label-col">Route</div>
+                    <div class="compare-col">via ORD</div>
+                    <div class="compare-col">Direct</div>
+                    <div class="compare-col">via JFK</div>
+                  </div>
+                  <div class="compare-row">
+                    <div class="compare-col label-col">Airline</div>
+                    <div class="compare-col">Journey Air</div>
+                    <div class="compare-col">British Air</div>
+                    <div class="compare-col">Journey Air</div>
+                  </div>
+                  <div class="compare-row">
+                    <div class="compare-col label-col">Departs</div>
+                    <div class="compare-col">1:30 PM</div>
+                    <div class="compare-col">2:45 PM</div>
+                    <div class="compare-col">12:15 PM</div>
+                  </div>
+                  <div class="compare-row">
+                    <div class="compare-col label-col">Arrives</div>
+                    <div class="compare-col green">7:20 AM</div>
+                    <div class="compare-col green">6:55 AM</div>
+                    <div class="compare-col red">11:20 AM</div>
+                  </div>
+                  <div class="compare-row">
+                    <div class="compare-col label-col">vs Original</div>
+                    <div class="compare-col green">-40m</div>
+                    <div class="compare-col green">-1h05m</div>
+                    <div class="compare-col red">+3h20m</div>
+                  </div>
+                  <div class="compare-row">
+                    <div class="compare-col label-col">Layover</div>
+                    <div class="compare-col">2h 15m</div>
+                    <div class="compare-col green">None</div>
+                    <div class="compare-col red">3h 40m</div>
+                  </div>
+                  <div class="compare-row">
+                    <div class="compare-col label-col">Seat</div>
+                    <div class="compare-col">14A ✓</div>
+                    <div class="compare-col">22C</div>
+                    <div class="compare-col">14A ✓</div>
+                  </div>
+                  <div class="compare-row">
+                    <div class="compare-col label-col">Fee</div>
+                    <div class="compare-col green">Free</div>
+                    <div class="compare-col green">Free</div>
+                    <div class="compare-col green">Free</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Selection Summary -->
+              <div class="selection-summary hidden" id="selection-summary">
+                <div class="selection-icon">✈</div>
+                <div class="selection-text" id="selection-text">You selected JA712 via Chicago</div>
+              </div>
+
+              <button class="primary-cta confirm-btn hidden" id="confirm-btn" onclick="confirmRecovery()">Confirm — Book
+                this flight</button>
+              <button class="secondary-cta" onclick="showScreen('screen-support')">None of these work — speak to an
+                agent</button>
+            </div>
+          </div>
+
+          <!-- Confirmation Screen -->
+          <div class="screen" id="screen-confirmation">
+            <div class="screen-scroll">
+              <div class="confirm-success">
+                <div class="check-circle">✓</div>
+                <div class="confirm-headline">You're rebooked</div>
+                <div class="confirm-sub">Everything is updated and ready.</div>
+              </div>
+              <div class="itinerary-timeline">
+                <div class="timeline-node origin">
+                  <div class="node-dot"></div>
+                  <div class="node-info">
+                    <span class="node-city">San Francisco (SFO)</span>
+                    <span class="node-flight">JA712 · Departs 1:30 PM</span>
+                    <span class="node-gate">Gate B22</span>
+                  </div>
+                </div>
+                <div class="timeline-line"></div>
+                <div class="timeline-node layover">
+                  <div class="node-dot"></div>
+                  <div class="node-info">
+                    <span class="node-city">Chicago O'Hare (ORD)</span>
+                    <span class="node-flight">2h 15m layover</span>
+                  </div>
+                </div>
+                <div class="timeline-line"></div>
+                <div class="timeline-node dest">
+                  <div class="node-dot"></div>
+                  <div class="node-info">
+                    <span class="node-city">London Heathrow (LHR)</span>
+                    <span class="node-flight">Arrives 7:20 AM +1</span>
+                  </div>
+                </div>
+              </div>
+              <div class="status-cards-grid">
+                <div class="status-tile"><span class="tile-icon">🎫</span><span class="tile-label">Boarding
+                    Pass</span><span class="tile-value">Updated</span></div>
+                <div class="status-tile"><span class="tile-icon">🧳</span><span class="tile-label">Baggage</span><span
+                    class="tile-value">Rerouted</span></div>
+                <div class="status-tile"><span class="tile-icon">💰</span><span class="tile-label">Fee</span><span
+                    class="tile-value">Waived</span></div>
+                <div class="status-tile"><span class="tile-icon">💺</span><span class="tile-label">Seat</span><span
+                    class="tile-value">14A kept</span></div>
+              </div>
+              <button class="primary-cta" onclick="showScreen('screen-home')">View boarding pass</button>
+              <button class="secondary-cta">Download new itinerary</button>
+            </div>
+          </div>
+
+          <!-- Connection Guardian Screen -->
+          <div class="screen" id="screen-guardian">
+            <div class="screen-scroll">
+              <button class="back-btn" onclick="showScreen('screen-home')">← Back</button>
+              <div class="guardian-header">
+                <div class="guardian-icon">🛡️</div>
+                <div class="guardian-title">Connection Guardian</div>
+              </div>
+              <div class="guardian-timer">
+                <div class="timer-ring">
+                  <svg viewBox="0 0 120 120">
+                    <circle cx="60" cy="60" r="54" class="ring-bg" />
+                    <circle cx="60" cy="60" r="54" class="ring-fg" style="stroke-dashoffset:90" />
+                  </svg>
+                  <div class="timer-center"><span class="timer-mins">38</span><span class="timer-unit">min</span></div>
+                </div>
+                <div class="timer-label-lg">Time to reach Gate C22</div>
+              </div>
+
+              <!-- Interactive Terminal Map -->
+              <div class="terminal-map-card">
+                <div class="map-title">Terminal Map — Live Route</div>
+                <div class="terminal-map">
+                  <svg viewBox="0 0 320 160" class="map-svg">
+                    <!-- Terminal B -->
+                    <rect x="10" y="20" width="120" height="120" rx="8" class="terminal-block" />
+                    <text x="70" y="16" class="terminal-label">Terminal B</text>
+                    <text x="30" y="48" class="gate-dot-label">B10</text>
+                    <circle cx="22" cy="50" r="4" class="gate-dot" />
+                    <text x="30" y="68" class="gate-dot-label">B12</text>
+                    <circle cx="22" cy="70" r="4" class="gate-dot" />
+                    <text x="30" y="88" class="gate-dot-label current">B14 ●</text>
+                    <circle cx="22" cy="90" r="6" class="gate-dot you-are-here" />
+                    <text x="30" y="108" class="gate-dot-label">B16</text>
+                    <circle cx="22" cy="110" r="4" class="gate-dot" />
+                    <!-- Connector -->
+                    <rect x="130" y="60" width="60" height="40" rx="4" class="connector-block" />
+                    <text x="160" y="84" class="connector-label">Connector</text>
+                    <!-- Terminal C -->
+                    <rect x="190" y="20" width="120" height="120" rx="8" class="terminal-block" />
+                    <text x="250" y="16" class="terminal-label">Terminal C</text>
+                    <text x="282" y="48" class="gate-dot-label">C18</text>
+                    <circle cx="300" cy="50" r="4" class="gate-dot" />
+                    <text x="282" y="68" class="gate-dot-label">C20</text>
+                    <circle cx="300" cy="70" r="4" class="gate-dot" />
+                    <text x="282" y="88" class="gate-dot-label dest">C22 ✈</text>
+                    <circle cx="300" cy="90" r="6" class="gate-dot destination" />
+                    <text x="282" y="108" class="gate-dot-label">C24</text>
+                    <circle cx="300" cy="110" r="4" class="gate-dot" />
+                    <!-- Route path -->
+                    <path d="M28 90 L120 90 L130 80 L190 80 L200 90 L294 90" class="route-path" fill="none" />
+                    <!-- Walking person -->
+                    <circle r="6" class="walk-dot">
+                      <animateMotion dur="4s" repeatCount="indefinite"
+                        path="M28 90 L120 90 L130 80 L190 80 L200 90 L294 90" />
+                    </circle>
+                  </svg>
+                </div>
+                <div class="map-legend">
+                  <span class="legend-item"><span class="legend-dot you"></span> You</span>
+                  <span class="legend-item"><span class="legend-dot dest"></span> Gate C22</span>
+                  <span class="legend-item"><span class="legend-line"></span> Route</span>
+                </div>
+              </div>
+
+              <!-- Step-by-step navigation -->
+              <div class="nav-steps-header">
+                <span>Walking Directions</span>
+                <span class="walk-estimate">~12 min walk</span>
+              </div>
+              <div class="guardian-steps interactive">
+                <div class="step-nav" data-step="1" onclick="activateNavStep(1)">
+                  <div class="step-num-wrap active"><span class="step-num">1</span></div>
+                  <div class="step-content">
+                    <div class="step-instruction">Exit Gate B14, turn right</div>
+                    <div class="step-sub">Walk along Terminal B corridor · 2 min</div>
+                  </div>
+                  <div class="step-dist">120m</div>
+                </div>
+                <div class="step-nav" data-step="2" onclick="activateNavStep(2)">
+                  <div class="step-num-wrap"><span class="step-num">2</span></div>
+                  <div class="step-content">
+                    <div class="step-instruction">Follow signs to Terminal C connector</div>
+                    <div class="step-sub">Take escalator down to level 1 · 3 min</div>
+                  </div>
+                  <div class="step-dist">200m</div>
+                </div>
+                <div class="step-nav" data-step="3" onclick="activateNavStep(3)">
+                  <div class="step-num-wrap"><span class="step-num">3</span></div>
+                  <div class="step-content">
+                    <div class="step-instruction">Take moving walkway through connector</div>
+                    <div class="step-sub">Stay left for fast lane · 4 min</div>
+                  </div>
+                  <div class="step-dist">350m</div>
+                </div>
+                <div class="step-nav" data-step="4" onclick="activateNavStep(4)">
+                  <div class="step-num-wrap"><span class="step-num">4</span></div>
+                  <div class="step-content">
+                    <div class="step-instruction">Pass through C gate security</div>
+                    <div class="step-sub">Show priority pass on this screen · 2 min</div>
+                  </div>
+                  <div class="step-dist">80m</div>
+                </div>
+                <div class="step-nav" data-step="5" onclick="activateNavStep(5)">
+                  <div class="step-num-wrap"><span class="step-num">5</span></div>
+                  <div class="step-content">
+                    <div class="step-instruction">Gate C22 is on your left</div>
+                    <div class="step-sub">You've arrived! · 1 min</div>
+                  </div>
+                  <div class="step-dist">50m</div>
+                </div>
+              </div>
+
+              <!-- Navigation progress bar -->
+              <div class="nav-progress">
+                <div class="nav-progress-bar" id="nav-progress-fill" style="width:0%"></div>
+              </div>
+              <div class="nav-progress-labels">
+                <span>B14</span>
+                <span class="nav-progress-pct" id="nav-pct">0% complete</span>
+                <span>C22</span>
+              </div>
+
+              <div class="priority-card">
+                <span class="priority-icon">⚡</span>
+                <div class="priority-content">
+                  <strong>Priority Security Lane Active</strong>
+                  <span>Show this screen at C gate security checkpoint</span>
+                </div>
+              </div>
+              <div class="backup-card">
+                <span class="backup-icon">🔒</span>
+                <span>If you miss this connection, your alternative is already prepared.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Baggage Screen -->
+          <div class="screen" id="screen-baggage">
+            <div class="screen-scroll">
+              <button class="back-btn" onclick="showScreen('screen-home')">← Back</button>
+              <div class="v2-screen-header">
+                <span class="v2-context">LIVE TRACKING</span>
+                <h2 class="v2-screen-title">Baggage tracking</h2>
+                <p class="v2-screen-sub">Tag: SW-82749102 · Loaded on JA204</p>
+              </div>
+
+              <!-- Visual Baggage Live Tracker (Google Maps mock) -->
+              <div class="bag-journey-card no-padding">
+                <div class="gmaps-container">
+                  <iframe 
+                    src="https://maps.google.com/maps?q=San+Francisco+International+Airport&t=&z=13&ie=UTF8&iwloc=&output=embed" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy">
+                  </iframe>
+                  <div class="gmaps-overlay">
+                    <div class="gmaps-marker">
+                      <span class="marker-icon">🧳</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bag Details -->
+              <div class="bag-detail-card">
+                <div class="bag-detail-header">
+                  <div class="bag-tag-lg">🧳 Tag: SW-82749102</div>
+                  <div class="bag-status-pill">Loaded</div>
+                </div>
+
+                <!-- Live scan timeline -->
+                <div class="scan-timeline">
+                  <div class="scan-title">Scan History</div>
+                  <div class="scan-item done">
+                    <div class="scan-dot"></div>
+                    <div class="scan-info">
+                      <span class="scan-event">Checked in at counter</span>
+                      <span class="scan-time">9:15 AM — SFO Terminal B, Counter 14</span>
+                    </div>
+                  </div>
+                  <div class="scan-item done">
+                    <div class="scan-dot"></div>
+                    <div class="scan-info">
+                      <span class="scan-event">Passed security screening</span>
+                      <span class="scan-time">9:22 AM — SFO Baggage Security</span>
+                    </div>
+                  </div>
+                  <div class="scan-item done">
+                    <div class="scan-dot"></div>
+                    <div class="scan-info">
+                      <span class="scan-event">Sorted to flight JA204</span>
+                      <span class="scan-time">9:38 AM — SFO Sorting Facility</span>
+                    </div>
+                  </div>
+                  <div class="scan-item done">
+                    <div class="scan-dot"></div>
+                    <div class="scan-info">
+                      <span class="scan-event">Loaded onto aircraft</span>
+                      <span class="scan-time">10:05 AM — SFO Gate B14, Hold 2</span>
+                    </div>
+                  </div>
+                  <div class="scan-item current">
+                    <div class="scan-dot pulsing"></div>
+                    <div class="scan-info">
+                      <span class="scan-event">Awaiting departure</span>
+                      <span class="scan-time">On board JA204 — estimated takeoff 12:15 PM</span>
+                    </div>
+                  </div>
+                  <div class="scan-item future">
+                    <div class="scan-dot"></div>
+                    <div class="scan-info">
+                      <span class="scan-event">Arrival carousel</span>
+                      <span class="scan-time">Will be assigned after landing</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bag-info-card">
+                <div class="bag-info-icon">ℹ️</div>
+                <p>Your bag is confirmed loaded on JA204. If your routing changes, we'll automatically reroute and
+                  notify you with the new carousel assignment.</p>
+              </div>
+
+              <!-- Baggage Add-ons -->
+              <div class="section-sub-header">Baggage Add-ons</div>
+              <div class="addon-grid">
+                <div class="addon-card" id="addon-priority">
+                  <div class="addon-icon">⚡</div>
+                  <div class="addon-info">
+                    <div class="addon-name">Priority Handling</div>
+                    <div class="addon-desc">Your bag comes out first at the carousel</div>
+                  </div>
+                  <div class="addon-price">
+                    <span class="addon-cost">$14.99</span>
+                    <button class="addon-btn" onclick="toggleAddon('priority')">Add</button>
+                  </div>
+                </div>
+                <div class="addon-card" id="addon-insurance">
+                  <div class="addon-icon">🛡️</div>
+                  <div class="addon-info">
+                    <div class="addon-name">Bag Insurance</div>
+                    <div class="addon-desc">Up to $3,000 coverage for loss or damage</div>
+                  </div>
+                  <div class="addon-price">
+                    <span class="addon-cost">$9.99</span>
+                    <button class="addon-btn" onclick="toggleAddon('insurance')">Add</button>
+                  </div>
+                </div>
+                <div class="addon-card" id="addon-extra">
+                  <div class="addon-icon">🧳</div>
+                  <div class="addon-info">
+                    <div class="addon-name">Extra Bag</div>
+                    <div class="addon-desc">Add a second checked bag (up to 23kg)</div>
+                  </div>
+                  <div class="addon-price">
+                    <span class="addon-cost">$45.00</span>
+                    <button class="addon-btn" onclick="toggleAddon('extra')">Add</button>
+                  </div>
+                </div>
+              </div>
+
+              <button class="secondary-cta" style="margin-top:8px">Report a baggage issue</button>
+
+              <!-- Cross-nav -->
+              <div class="v2-crossnav">
+                <div class="v2-crossnav-item" onclick="showScreen('screen-boardingpass')">
+                  <span class="v2-cn-icon">🎫</span>
+                  <span class="v2-cn-text">View boarding pass</span>
+                  <span class="fc-arrow">›</span>
+                </div>
+                <div class="v2-crossnav-item" onclick="openStandaloneFeature('screen-seatfit')">
+                  <span class="v2-cn-icon">🪑</span>
+                  <span class="v2-cn-text">Change seat selection</span>
+                  <span class="fc-arrow">›</span>
+                </div>
+                <div class="v2-crossnav-item" onclick="showScreen('screen-support')">
+                  <span class="v2-cn-icon">💬</span>
+                  <span class="v2-cn-text">Report a problem</span>
+                  <span class="fc-arrow">›</span>
+                </div>
+              </div>
+              <div style="height:16px"></div>
+            </div>
+          </div>
+
+          <!-- Support / AI Agent Screen -->
+          <div class="screen" id="screen-support">
+            <div class="screen-scroll chat-scroll" id="chat-scroll">
+              <button class="back-btn" onclick="showScreen('screen-home')">← Back</button>
+              <div class="section-header">Journey Air Assistant</div>
+              <div class="chat-status"><span class="live-dot"></span> AI Agent Online</div>
+
+              <!-- Chat Messages -->
+              <div class="chat-messages" id="chat-messages">
+                <div class="chat-msg bot">
+                  <div class="chat-avatar">✈</div>
+                  <div class="chat-bubble">
+                    Hi Luthfi! 👋 I'm your Journey Air assistant. I can help with your flight, connections, baggage,
+                    rebooking, or anything else about your trip. What do you need?
+                  </div>
+                </div>
+              </div>
+
+              <!-- Quick Reply Suggestions -->
+              <div class="quick-replies" id="quick-replies">
+                <button class="qr-btn" onclick="sendQuickReply('What\'s my flight status?')">✈️ Flight status</button>
+                <button class="qr-btn" onclick="sendQuickReply('Where is my baggage?')">🧳 Baggage</button>
+                <button class="qr-btn" onclick="sendQuickReply('Will I make my connection?')">🔗 Connection</button>
+                <button class="qr-btn" onclick="sendQuickReply('Show me rebooking options')">🔄 Rebooking</button>
+                <button class="qr-btn" onclick="sendQuickReply('Show partner airlines')">🤝 Partners</button>
+                <button class="qr-btn" onclick="sendQuickReply('Talk to a human agent')">👤 Human agent</button>
+              </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input-bar">
+              <input type="text" class="chat-input" id="chat-input" placeholder="Ask me anything..."
+                onkeydown="if(event.key==='Enter')sendChat()" />
+              <button class="chat-send" onclick="sendChat()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Boarding Pass Screen -->
+          <div class="screen" id="screen-boardingpass">
+            <div class="screen-scroll">
+              <button class="back-btn" onclick="showScreen('screen-home')">← Back</button>
+              <div class="v2-screen-header">
+                <span class="v2-context">CHECK-IN COMPLETE</span>
+                <h2 class="v2-screen-title">Boarding passes</h2>
+                <p class="v2-screen-sub">3 passes · Swipe to view</p>
+              </div>
+              <div class="bp-pass-counter">
+                <span class="bp-status-badge">✅ Checked In</span>
+                <span class="bp-count-label">3 passes · Swipe to view →</span>
+              </div>
+
+              <div class="bp-swiper-container">
+                <div class="bp-swiper" id="bp-swiper" onscroll="updateBpIndicators()">
+                  <!-- Pass 1: Journey Air -->
+                  <div class="boarding-pass-card">
+                    <div class="bp-header">
+                      <svg class="bp-logo" width="24" height="24" viewBox="0 0 32 32">
+                        <circle cx="16" cy="16" r="14" fill="#0770e3" />
+                        <path d="M9 20 L16 12 L23 20" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M16 12 L16 22" stroke="white" stroke-width="2" stroke-linecap="round" />
+                      </svg>
+                      <span class="bp-airline">Journey Air</span>
+                      <span class="bp-class">Economy</span>
+                    </div>
+
+                    <div class="bp-route">
+                      <div class="bp-city">
+                        <span class="bp-code">SFO</span>
+                        <span class="bp-cityname">San Francisco</span>
+                      </div>
+                      <div class="bp-arrow">→</div>
+                      <div class="bp-city">
+                        <span class="bp-code">ORD</span>
+                        <span class="bp-cityname">Chicago</span>
+                      </div>
+                    </div>
+
+                    <div class="bp-details">
+                      <div class="bp-field"><span class="bp-label">PASSENGER</span><span class="bp-val">LUTHFI</span></div>
+                      <div class="bp-field"><span class="bp-label">FLIGHT</span><span class="bp-val">JA204</span></div>
+                      <div class="bp-field"><span class="bp-label">DATE</span><span class="bp-val">13 APR 2026</span></div>
+                      <div class="bp-field"><span class="bp-label">GATE</span><span class="bp-val">B14</span></div>
+                      <div class="bp-field"><span class="bp-label">SEAT</span><span class="bp-val">14A</span></div>
+                      <div class="bp-field"><span class="bp-label">GROUP</span><span class="bp-val">2</span></div>
+                      <div class="bp-field"><span class="bp-label">BOARDING</span><span class="bp-val">11:45 AM</span></div>
+                      <div class="bp-field"><span class="bp-label">DEPARTS</span><span class="bp-val">12:15 PM</span></div>
+                    </div>
+
+                    <div class="bp-divider"></div>
+
+                    <div class="bp-qr-section">
+                      <canvas id="qr-canvas" width="160" height="160"></canvas>
+                      <div class="bp-qr-label">Scan at gate for boarding</div>
+                      <div class="bp-ref">Booking: JA-X7K9M2</div>
+                    </div>
+                  </div>
+
+                  <!-- Pass 2: United Airlines -->
+                  <div class="boarding-pass-card">
+                    <div class="bp-header" style="background: rgba(0, 50, 160, 0.1);">
+                      <div class="partner-logo-mini" style="background: #0032A0">UA</div>
+                      <span class="bp-airline" style="color: #0032A0;">United Airlines</span>
+                      <span class="bp-class">Economy Plus</span>
+                    </div>
+
+                    <div class="bp-route">
+                      <div class="bp-city">
+                        <span class="bp-code">ORD</span>
+                        <span class="bp-cityname">Chicago</span>
+                      </div>
+                      <div class="bp-arrow">→</div>
+                      <div class="bp-city">
+                        <span class="bp-code">LHR</span>
+                        <span class="bp-cityname">London</span>
+                      </div>
+                    </div>
+
+                    <div class="bp-details">
+                      <div class="bp-field"><span class="bp-label">PASSENGER</span><span class="bp-val">LUTHFI</span></div>
+                      <div class="bp-field"><span class="bp-label">FLIGHT</span><span class="bp-val">UA900</span></div>
+                      <div class="bp-field"><span class="bp-label">DATE</span><span class="bp-val">13 APR 2026</span></div>
+                      <div class="bp-field"><span class="bp-label">GATE</span><span class="bp-val">C22</span></div>
+                      <div class="bp-field"><span class="bp-label">SEAT</span><span class="bp-val">8F</span></div>
+                      <div class="bp-field"><span class="bp-label">GROUP</span><span class="bp-val">3</span></div>
+                      <div class="bp-field"><span class="bp-label">BOARDING</span><span class="bp-val">8:10 PM</span></div>
+                      <div class="bp-field"><span class="bp-label">DEPARTS</span><span class="bp-val">8:50 PM</span></div>
+                    </div>
+
+                    <div class="bp-divider"></div>
+
+                    <div class="bp-integration-section">
+                      <div class="intg-info">
+                        <span class="intg-icon">📱</span>
+                        <span>Check-in available via United Airlines app</span>
+                      </div>
+                      <button class="intg-btn ua-btn" onclick="openAppMock('United')">Check In with United</button>
+                    </div>
+                  </div>
+
+                  <!-- Pass 3: Delta Airlines -->
+                  <div class="boarding-pass-card">
+                    <div class="bp-header" style="background: rgba(0, 51, 102, 0.1);">
+                      <div class="partner-logo-mini" style="background: #003366">DL</div>
+                      <span class="bp-airline" style="color: #003366;">Delta Air Lines</span>
+                      <span class="bp-class">Main Cabin</span>
+                    </div>
+
+                    <div class="bp-route">
+                      <div class="bp-city">
+                        <span class="bp-code">LHR</span>
+                        <span class="bp-cityname">London</span>
+                      </div>
+                      <div class="bp-arrow">→</div>
+                      <div class="bp-city">
+                        <span class="bp-code">JFK</span>
+                        <span class="bp-cityname">New York</span>
+                      </div>
+                    </div>
+
+                    <div class="bp-details">
+                      <div class="bp-field"><span class="bp-label">PASSENGER</span><span class="bp-val">LUTHFI</span></div>
+                      <div class="bp-field"><span class="bp-label">FLIGHT</span><span class="bp-val">DL4</span></div>
+                      <div class="bp-field"><span class="bp-label">DATE</span><span class="bp-val">20 APR 2026</span></div>
+                      <div class="bp-field"><span class="bp-label">GATE</span><span class="bp-val">TBD</span></div>
+                      <div class="bp-field"><span class="bp-label">SEAT</span><span class="bp-val">24A</span></div>
+                      <div class="bp-field"><span class="bp-label">GROUP</span><span class="bp-val">4</span></div>
+                      <div class="bp-field"><span class="bp-label">BOARDING</span><span class="bp-val">9:45 AM</span></div>
+                      <div class="bp-field"><span class="bp-label">DEPARTS</span><span class="bp-val">10:30 AM</span></div>
+                    </div>
+
+                    <div class="bp-divider"></div>
+
+                    <div class="bp-integration-section">
+                       <div class="intg-info">
+                        <span class="intg-icon">📱</span>
+                        <span>Check-in opens in 6 days</span>
+                      </div>
+                      <button class="intg-btn dl-btn" onclick="openAppMock('Delta')">Manage in Delta App</button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="swiper-pagination" id="bp-pagination">
+                  <span class="dot active"></span>
+                  <span class="dot"></span>
+                  <span class="dot"></span>
+                </div>
+              </div>
+
+              <!-- App Check-in Simulation Overlay -->
+              <div class="app-mock-overlay hidden" id="app-mock-overlay">
+                <div class="app-mock-card">
+                  <div class="app-mock-header" id="app-mock-header">
+                     Airlines
+                  </div>
+                  <div class="app-mock-body">
+                    <div class="spinner"></div>
+                    <p id="app-mock-text">Switching to app...</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="v2-crossnav">
+                <div class="v2-crossnav-item" onclick="openStandaloneFeature('screen-seatfit')">
+                  <span class="v2-cn-icon">🪑</span>
+                  <span class="v2-cn-text">Change seat selection</span>
+                  <span class="fc-arrow">›</span>
+                </div>
+                <div class="v2-crossnav-item" onclick="showScreen('screen-baggage')">
+                  <span class="v2-cn-icon">🧳</span>
+                  <span class="v2-cn-text">Track my baggage</span>
+                  <span class="fc-arrow">›</span>
+                </div>
+                <div class="v2-crossnav-item" onclick="showScreen('screen-support')">
+                  <span class="v2-cn-icon">💬</span>
+                  <span class="v2-cn-text">Get help from assistant</span>
+                  <span class="fc-arrow">›</span>
+                </div>
+              </div>
+              <div style="height:16px"></div>
+            </div>
+          </div>
+
+          <!-- Partner Airlines Screen -->
+          <div class="screen" id="screen-partners">
+            <div class="screen-scroll">
+              <button class="back-btn" onclick="showScreen('screen-support')">← Back</button>
+              <div class="section-header">Partner Airlines</div>
+              <div class="partner-sub">Journey Air connects with Tier 1 & 2 US carriers for seamless rebooking and
+                codeshare flights.</div>
+
+              <!-- Tier 1 -->
+              <div class="partner-tier-label">Tier 1 — Major Carriers</div>
+              <div class="partner-card" style="border-left-color: #0032A0">
+                <div class="partner-logo" style="background: #0032A0">UA</div>
+                <div class="partner-info">
+                  <div class="partner-name">United Airlines</div>
+                  <div class="partner-detail">Star Alliance · Full interline · 5,000+ daily flights</div>
+                  <div class="partner-features"><span class="pf-tag">Codeshare</span><span class="pf-tag">Bag
+                      Transfer</span><span class="pf-tag">Lounge Access</span></div>
+                </div>
+              </div>
+              <div class="partner-card" style="border-left-color: #0078D2">
+                <div class="partner-logo" style="background: #0078D2">AA</div>
+                <div class="partner-info">
+                  <div class="partner-name">American Airlines</div>
+                  <div class="partner-detail">Oneworld · Full interline · 6,700+ daily flights</div>
+                  <div class="partner-features"><span class="pf-tag">Codeshare</span><span class="pf-tag">Bag
+                      Transfer</span><span class="pf-tag">Priority Rebooking</span></div>
+                </div>
+              </div>
+              <div class="partner-card" style="border-left-color: #003366">
+                <div class="partner-logo" style="background: #003366">DL</div>
+                <div class="partner-info">
+                  <div class="partner-name">Delta Air Lines</div>
+                  <div class="partner-detail">SkyTeam · Full interline · 5,400+ daily flights</div>
+                  <div class="partner-features"><span class="pf-tag">Codeshare</span><span class="pf-tag">Bag
+                      Transfer</span><span class="pf-tag">Sky Club</span></div>
+                </div>
+              </div>
+
+              <!-- Tier 2 -->
+              <div class="partner-tier-label">Tier 2 — Value & Regional</div>
+              <div class="partner-card" style="border-left-color: #304CB2">
+                <div class="partner-logo" style="background: #304CB2">B6</div>
+                <div class="partner-info">
+                  <div class="partner-name">JetBlue Airways</div>
+                  <div class="partner-detail">Independent · Northeast Alliance · 1,000+ daily flights</div>
+                  <div class="partner-features"><span class="pf-tag">Interline</span><span class="pf-tag">Bag
+                      Transfer</span></div>
+                </div>
+              </div>
+              <div class="partner-card" style="border-left-color: #FFBF27">
+                <div class="partner-logo" style="background: #FFBF27; color: #111">WN</div>
+                <div class="partner-info">
+                  <div class="partner-name">Southwest Airlines</div>
+                  <div class="partner-detail">Independent · Domestic leader · 4,000+ daily flights</div>
+                  <div class="partner-features"><span class="pf-tag">Recovery Only</span><span class="pf-tag">Free
+                      Bags</span></div>
+                </div>
+              </div>
+              <div class="partner-card" style="border-left-color: #00853F">
+                <div class="partner-logo" style="background: #00853F">F9</div>
+                <div class="partner-info">
+                  <div class="partner-name">Frontier Airlines</div>
+                  <div class="partner-detail">ULCC · Domestic & Latin America · 600+ daily flights</div>
+                  <div class="partner-features"><span class="pf-tag">Recovery Only</span></div>
+                </div>
+              </div>
+
+              <div class="partner-tier-label">International Partners</div>
+              <div class="partner-card" style="border-left-color: #BA0D2F">
+                <div class="partner-logo" style="background: #BA0D2F">BA</div>
+                <div class="partner-info">
+                  <div class="partner-name">British Airways</div>
+                  <div class="partner-detail">Oneworld · Transatlantic partner · 800+ daily flights</div>
+                  <div class="partner-features"><span class="pf-tag">Codeshare</span><span class="pf-tag">Bag
+                      Transfer</span><span class="pf-tag">Lounge Access</span></div>
+                </div>
+              </div>
+              <div class="partner-card" style="border-left-color: #002D62">
+                <div class="partner-logo" style="background: #002D62">LH</div>
+                <div class="partner-info">
+                  <div class="partner-name">Lufthansa</div>
+                  <div class="partner-detail">Star Alliance · European hub · 700+ daily flights</div>
+                  <div class="partner-features"><span class="pf-tag">Codeshare</span><span class="pf-tag">Bag
+                      Transfer</span></div>
+                </div>
+              </div>
+
+              <!-- Google Flights Integration Card -->
+              <div class="integration-card">
+                <div class="intg-header">
+                  <span class="intg-icon">📍</span>
+                  <span class="intg-title">Google Maps & Flights</span>
+                </div>
+                <div class="intg-desc">Real-time terminal navigation, flight status, and fare comparison powered by
+                  Google's travel APIs.</div>
+                <div class="intg-features">
+                  <span class="intg-tag">Indoor Maps</span>
+                  <span class="intg-tag">Walking Directions</span>
+                  <span class="intg-tag">Price Alerts</span>
+                  <span class="intg-tag">Flight Tracking</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ======== JOURNEY SIMULATION SCREENS ======== -->
+
+        <!-- SCREEN 1: SEAT FIT PREVIEW -->
+        <div class="screen" id="screen-seatfit">
+          <div class="screen-scroll">
+            <div class="journey-screen">
+              <button class="back-btn js-back-btn" id="seatfit-back" onclick="goHome()">← Back</button>
+              <div class="js-step-indicator" id="seatfit-steps">
+                <div class="js-step active"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+              </div>
+              <div class="v2-screen-header">
+                <span class="v2-context">SEAT SELECTION · 14A</span>
+                <h2 class="v2-screen-title">Seat fit preview</h2>
+                <p class="v2-screen-sub">See how comfortable you'll be before you choose.</p>
+              </div>
+              <div class="sf-input-area">
+                <label class="input-label">Your height</label>
+                <div class="sf-height-row">
+                  <input type="range" id="sf-height-slider" class="sf-slider" min="150" max="200" value="178"
+                    oninput="updateSeatFit()">
+                  <span class="sf-height-val" id="sf-height-val">178 cm</span>
+                </div>
+                <span class="input-hint">Slide to set your height for a personalized comfort rating.</span>
+              </div>
+              <div class="sf-result-card" id="sf-result-card">
+                <div class="sf-comfort-header">
+                  <span class="sf-comfort-emoji" id="sf-comfort-emoji">😊</span>
+                  <div>
+                    <div class="sf-comfort-label" id="sf-comfort-label">Comfortable</div>
+                    <div class="sf-comfort-detail" id="sf-comfort-detail">Good legroom for your height</div>
+                  </div>
+                </div>
+                <div class="sf-legroom-compare">
+                  <div class="sf-legroom-bar">
+                    <div class="sf-bar-label">Seat 14A <span class="sf-seat-class">Economy</span></div>
+                    <div class="sf-bar-track">
+                      <div class="sf-bar-fill" id="sf-bar-14a" style="width: 72%"></div>
+                    </div>
+                    <span class="sf-bar-val">31" legroom</span>
+                  </div>
+                  <div class="sf-legroom-bar">
+                    <div class="sf-bar-label">Seat 7A <span class="sf-seat-class extra">Extra Legroom</span></div>
+                    <div class="sf-bar-track">
+                      <div class="sf-bar-fill sf-fill-premium" id="sf-bar-7a" style="width: 88%"></div>
+                    </div>
+                    <span class="sf-bar-val">34" legroom</span>
+                  </div>
+                  <div class="sf-legroom-bar">
+                    <div class="sf-bar-label">Seat 2A <span class="sf-seat-class biz">Business</span></div>
+                    <div class="sf-bar-track">
+                      <div class="sf-bar-fill sf-fill-biz" id="sf-bar-2a" style="width: 100%"></div>
+                    </div>
+                    <span class="sf-bar-val">42" legroom</span>
+                  </div>
+                </div>
+                <div class="sf-rec-badge" id="sf-rec-badge">
+                  ✨ <strong>Recommended:</strong> Seat 14A — great fit at your height
+                </div>
+              </div>
+
+              <!-- Seat Map -->
+              <div class="v2-data-card">
+                <div class="v2-card-header">CABIN MAP · ECONOMY</div>
+                <div class="seat-map">
+                  <div class="seat-map-labels">
+                    <span>A</span><span>B</span><span>C</span><span></span><span>D</span><span>E</span><span>F</span>
+                  </div>
+                  <div class="seat-row" data-row="12">
+                    <span class="seat avail" onclick="selectSeat(this,'12A')">12A</span>
+                    <span class="seat occupied">12B</span>
+                    <span class="seat occupied">12C</span>
+                    <span class="seat-aisle">12</span>
+                    <span class="seat avail" onclick="selectSeat(this,'12D')">12D</span>
+                    <span class="seat avail" onclick="selectSeat(this,'12E')">12E</span>
+                    <span class="seat occupied">12F</span>
+                  </div>
+                  <div class="seat-row" data-row="13">
+                    <span class="seat occupied">13A</span>
+                    <span class="seat avail" onclick="selectSeat(this,'13B')">13B</span>
+                    <span class="seat occupied">13C</span>
+                    <span class="seat-aisle">13</span>
+                    <span class="seat occupied">13D</span>
+                    <span class="seat avail" onclick="selectSeat(this,'13E')">13E</span>
+                    <span class="seat avail" onclick="selectSeat(this,'13F')">13F</span>
+                  </div>
+                  <div class="seat-row" data-row="14">
+                    <span class="seat selected" id="seat-14A" onclick="selectSeat(this,'14A')">14A</span>
+                    <span class="seat avail" onclick="selectSeat(this,'14B')">14B</span>
+                    <span class="seat occupied">14C</span>
+                    <span class="seat-aisle">14</span>
+                    <span class="seat avail" onclick="selectSeat(this,'14D')">14D</span>
+                    <span class="seat occupied">14E</span>
+                    <span class="seat avail" onclick="selectSeat(this,'14F')">14F</span>
+                  </div>
+                  <div class="seat-row" data-row="15">
+                    <span class="seat occupied">15A</span>
+                    <span class="seat occupied">15B</span>
+                    <span class="seat avail" onclick="selectSeat(this,'15C')">15C</span>
+                    <span class="seat-aisle">15</span>
+                    <span class="seat avail" onclick="selectSeat(this,'15D')">15D</span>
+                    <span class="seat avail" onclick="selectSeat(this,'15E')">15E</span>
+                    <span class="seat occupied">15F</span>
+                  </div>
+                  <div class="seat-map-legend">
+                    <span class="legend-item"><span class="legend-dot lg-avail"></span> Available</span>
+                    <span class="legend-item"><span class="legend-dot lg-selected"></span> Your seat</span>
+                    <span class="legend-item"><span class="legend-dot lg-occupied"></span> Taken</span>
+                  </div>
+                </div>
+              </div>
+
+              <button class="js-next-btn" id="seatfit-confirm-btn" onclick="confirmSeatFit()">Confirm Seat 14A → Continue</button>
+              <button class="js-skip-btn js-demo-only" onclick="goJourneyStep(1)">Skip to departure →</button>
+
+              <!-- Cross-nav -->
+              <div class="v2-crossnav">
+                <div class="v2-crossnav-item" onclick="showScreen('screen-boardingpass')">
+                  <span class="v2-cn-icon">🎫</span>
+                  <span class="v2-cn-text">View boarding pass</span>
+                  <span class="fc-arrow">›</span>
+                </div>
+                <div class="v2-crossnav-item" onclick="showScreen('screen-baggage')">
+                  <span class="v2-cn-icon">🧳</span>
+                  <span class="v2-cn-text">Track my baggage</span>
+                  <span class="fc-arrow">›</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN 2: TSA LIVE TRACKER -->
+        <div class="screen" id="screen-tsa">
+          <div class="screen-scroll">
+            <div class="journey-screen">
+              <div class="js-step-indicator">
+                <div class="js-step done">✓</div>
+                <div class="js-step active"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+              </div>
+
+              <!-- Screen Header -->
+              <div class="v2-screen-header">
+                <span class="v2-context">DAY OF TRAVEL · <span id="tsa-time-label">6:18 AM</span></span>
+                <h2 class="v2-screen-title">TSA wait times</h2>
+                <p class="v2-screen-sub">Terminal 2 · SFO International</p>
+              </div>
+
+              <!-- Wait Ring -->
+              <div class="v2-ring-card">
+                <div class="v2-ring-wrap">
+                  <svg width="96" height="96" viewBox="0 0 96 96">
+                    <circle cx="48" cy="48" r="40" fill="none" stroke="#e8eaf0" stroke-width="3"/>
+                    <circle cx="48" cy="48" r="40" fill="none" stroke="var(--primary)" stroke-width="3" stroke-dasharray="251" stroke-dashoffset="146" stroke-linecap="round" transform="rotate(-90 48 48)"/>
+                  </svg>
+                  <div class="v2-ring-inner">
+                    <span class="v2-ring-num" id="tsa-wait-num">14</span>
+                    <span class="v2-ring-unit">minutes</span>
+                  </div>
+                </div>
+                <div class="v2-ring-label">Current wait · Gate B checkpoint</div>
+                <div class="v2-ring-update">Updated 3 min ago · <span class="v2-live-dot">live</span></div>
+              </div>
+
+              <!-- All Checkpoints -->
+              <div class="v2-data-card">
+                <div class="v2-card-header">ALL CHECKPOINTS</div>
+                <div class="v2-data-row">
+                  <span class="v2-data-key">TSA Pre✓ · Gate B</span>
+                  <span class="v2-data-val v2-val-green">4 min</span>
+                  <span class="v2-status-badge v2-badge-green">• Fast</span>
+                </div>
+                <div class="v2-data-divider"></div>
+                <div class="v2-data-row">
+                  <span class="v2-data-key">Standard · Gate B</span>
+                  <span class="v2-data-val v2-val-amber">14 min</span>
+                  <span class="v2-status-badge v2-badge-amber">• Moderate</span>
+                </div>
+                <div class="v2-data-divider"></div>
+                <div class="v2-data-row">
+                  <span class="v2-data-key">Standard · Gate A</span>
+                  <span class="v2-data-val v2-val-red">31 min</span>
+                  <span class="v2-status-badge v2-badge-red">• Long</span>
+                </div>
+              </div>
+
+              <!-- Recommended Arrival -->
+              <div class="v2-data-card">
+                <div class="v2-card-header">RECOMMENDED ARRIVAL WINDOW</div>
+                <div class="v2-rec-time">Arrive by <strong id="tsa-rec-time">7:00 AM</strong></div>
+                <p class="v2-rec-desc">Flight boards 7:30 AM. With 14-min wait + terminal walk, arrive by 7:00 AM to board comfortably.</p>
+                <div class="v2-data-divider"></div>
+                <div class="v2-timeline">
+                  <span class="v2-tl-label">Now →</span>
+                  <span class="v2-tl-label v2-tl-accent">7:00 AM arrival</span>
+                  <span class="v2-tl-label">7:30 board</span>
+                </div>
+                <div class="v2-timeline-bar">
+                  <div class="v2-tl-track"></div>
+                  <div class="v2-tl-fill" style="width: 70%"></div>
+                </div>
+              </div>
+
+              <button class="js-next-btn" onclick="goJourneyStep(2)">I'm at the airport → Gate View</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN 3: BOARDING GATE VIEW -->
+        <div class="screen" id="screen-gate">
+          <div class="screen-scroll">
+            <div class="journey-screen">
+              <div class="js-step-indicator">
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step active"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+              </div>
+              <div class="v2-screen-header">
+                <span class="v2-context">GATE B14 · BOARDING</span>
+                <h2 class="v2-screen-title">Boarding gate</h2>
+                <p class="v2-screen-sub">Your boarding pass is ready. Wait for your zone.</p>
+              </div>
+              <div class="gate-qr-area" id="gate-qr-area">
+                <div class="gate-qr-wrapper locked" id="gate-qr-wrapper">
+                  <div class="gate-lock-overlay" id="gate-lock-overlay">
+                    <div class="gate-lock-icon">🔒</div>
+                    <div class="gate-lock-text">Locked until your zone is called</div>
+                  </div>
+                  <div class="gate-qr-code" id="gate-qr-code">
+                    <svg viewBox="0 0 100 100" width="140" height="140">
+                      <rect x="5" y="5" width="25" height="25" fill="#111" rx="3" />
+                      <rect x="70" y="5" width="25" height="25" fill="#111" rx="3" />
+                      <rect x="5" y="70" width="25" height="25" fill="#111" rx="3" />
+                      <rect x="10" y="10" width="15" height="15" fill="white" rx="2" />
+                      <rect x="75" y="10" width="15" height="15" fill="white" rx="2" />
+                      <rect x="10" y="75" width="15" height="15" fill="white" rx="2" />
+                      <rect x="13" y="13" width="9" height="9" fill="#111" rx="1" />
+                      <rect x="78" y="13" width="9" height="9" fill="#111" rx="1" />
+                      <rect x="13" y="78" width="9" height="9" fill="#111" rx="1" />
+                      <rect x="35" y="5" width="5" height="5" fill="#111" />
+                      <rect x="45" y="5" width="5" height="5" fill="#111" />
+                      <rect x="55" y="5" width="5" height="5" fill="#111" />
+                      <rect x="35" y="15" width="5" height="5" fill="#111" />
+                      <rect x="50" y="15" width="5" height="5" fill="#111" />
+                      <rect x="5" y="35" width="5" height="5" fill="#111" />
+                      <rect x="15" y="35" width="5" height="5" fill="#111" />
+                      <rect x="30" y="35" width="5" height="5" fill="#111" />
+                      <rect x="45" y="35" width="5" height="5" fill="#111" />
+                      <rect x="55" y="35" width="5" height="5" fill="#111" />
+                      <rect x="70" y="35" width="5" height="5" fill="#111" />
+                      <rect x="5" y="45" width="5" height="5" fill="#111" />
+                      <rect x="20" y="45" width="5" height="5" fill="#111" />
+                      <rect x="35" y="45" width="5" height="5" fill="#111" />
+                      <rect x="50" y="45" width="5" height="5" fill="#111" />
+                      <rect x="65" y="45" width="5" height="5" fill="#111" />
+                      <rect x="85" y="45" width="5" height="5" fill="#111" />
+                      <rect x="70" y="70" width="25" height="25" fill="#111" rx="3" />
+                      <rect x="75" y="75" width="15" height="15" fill="white" rx="2" />
+                      <rect x="78" y="78" width="9" height="9" fill="#111" rx="1" />
+                      <rect x="35" y="70" width="5" height="5" fill="#111" />
+                      <rect x="50" y="70" width="5" height="5" fill="#111" />
+                      <rect x="60" y="70" width="5" height="5" fill="#111" />
+                    </svg>
+                  </div>
+                  <div class="gate-pass-info">
+                    <div class="gate-flight">JA204 · SFO → LHR</div>
+                    <div class="gate-seat">Seat 14A · Zone 3</div>
+                  </div>
+                </div>
+              </div>
+              <div class="gate-bin-section">
+                <div class="gate-bin-header"><span>🧳 Overhead Bin Capacity — Rows 12–18</span></div>
+                <div class="gate-bin-bar-wrap">
+                  <div class="gate-bin-track">
+                    <div class="gate-bin-fill" id="gate-bin-fill" style="width: 64%"></div>
+                  </div>
+                  <span class="gate-bin-pct" id="gate-bin-pct">64% full</span>
+                </div>
+                <div class="gate-bin-hint">💡 Space available for your carry-on. Board early for guaranteed room.</div>
+              </div>
+              <div class="gate-zones">
+                <div class="gate-zone-item done"><span class="gz-dot done"></span> Zone 1 — Boarded</div>
+                <div class="gate-zone-item active"><span class="gz-dot active"></span> Zone 2 — Now Boarding</div>
+                <div class="gate-zone-item"><span class="gz-dot"></span> Zone 3 — <strong>Your zone (next)</strong>
+                </div>
+                <div class="gate-zone-item"><span class="gz-dot"></span> Zone 4 — Waiting</div>
+              </div>
+              <button class="js-next-btn" id="gate-next-btn" onclick="triggerZoneNotification()">Simulate: Your Zone
+                Called 🔔</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN 4: ZONE NOTIFICATION (full-screen) -->
+        <div class="screen" id="screen-zone-notif">
+          <div class="zn-fullscreen-v2">
+            <div class="zn-v2-label">FULL-SCREEN PUSH NOTIFICATION</div>
+
+            <div class="zn-v2-bell">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5">
+                <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/>
+              </svg>
+            </div>
+
+            <div class="zn-v2-context">JOURNEY AIR · JA204</div>
+            <h2 class="zn-v2-title">Zone 3 — now boarding</h2>
+            <p class="zn-v2-subtitle">Gate B14 · Your boarding pass is unlocked. Bin space is available above row 22.</p>
+
+            <div class="zn-v2-qr-wrap">
+              <svg viewBox="0 0 100 100" width="120" height="120">
+                <rect x="5" y="5" width="25" height="25" fill="var(--primary)" rx="3" />
+                <rect x="70" y="5" width="25" height="25" fill="var(--primary)" rx="3" />
+                <rect x="5" y="70" width="25" height="25" fill="var(--primary)" rx="3" />
+                <rect x="10" y="10" width="15" height="15" fill="white" rx="2" />
+                <rect x="75" y="10" width="15" height="15" fill="white" rx="2" />
+                <rect x="10" y="75" width="15" height="15" fill="white" rx="2" />
+                <rect x="13" y="13" width="9" height="9" fill="var(--primary)" rx="1" />
+                <rect x="78" y="13" width="9" height="9" fill="var(--primary)" rx="1" />
+                <rect x="13" y="78" width="9" height="9" fill="var(--primary)" rx="1" />
+                <rect x="35" y="5" width="5" height="5" fill="var(--primary)" />
+                <rect x="45" y="15" width="5" height="5" fill="var(--primary)" />
+                <rect x="55" y="35" width="5" height="5" fill="var(--primary)" />
+                <rect x="35" y="45" width="5" height="5" fill="var(--primary)" />
+                <rect x="50" y="45" width="5" height="5" fill="var(--primary)" />
+                <rect x="70" y="70" width="25" height="25" fill="var(--primary)" rx="3" />
+                <rect x="75" y="75" width="15" height="15" fill="white" rx="2" />
+                <rect x="78" y="78" width="9" height="9" fill="var(--primary)" rx="1" />
+              </svg>
+            </div>
+            <div class="zn-v2-hint">Tap to open · Swipe up to dismiss</div>
+
+            <div class="zn-v2-actions">
+              <button class="zn-v2-btn zn-v2-dismiss" onclick="goJourneyStep(2)">Dismiss</button>
+              <button class="zn-v2-btn zn-v2-open" onclick="goJourneyStep(4)">Open boarding pass</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN 5: IN-FLIGHT STATUS CARD -->
+        <div class="screen" id="screen-inflight">
+          <div class="screen-scroll">
+            <div class="journey-screen">
+              <div class="js-step-indicator">
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step active"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+              </div>
+
+              <!-- Screen Header -->
+              <div class="v2-screen-header">
+                <span class="v2-context">IN FLIGHT · 10:22 AM</span>
+                <h2 class="v2-screen-title">Flight status</h2>
+                <p class="v2-screen-sub">JA204 · 38,000 ft · over Kansas</p>
+              </div>
+
+              <!-- Arrival Card -->
+              <div class="v2-data-card">
+                <div class="v2-arrival-row">
+                  <div class="v2-arrival-info">
+                    <div class="v2-arrival-label">LHR arrival</div>
+                    <div class="v2-arrival-time" id="if-eta">2:47 PM</div>
+                    <div class="v2-arrival-status">On time · auto-refreshes every 15 min</div>
+                  </div>
+                  <div class="v2-arrival-ring">
+                    <svg width="48" height="48" viewBox="0 0 48 48">
+                      <circle cx="24" cy="24" r="20" fill="none" stroke="#e8eaf0" stroke-width="2.5"/>
+                      <circle cx="24" cy="24" r="20" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-dasharray="125.6" stroke-dashoffset="50" stroke-linecap="round" transform="rotate(-90 24 24)"/>
+                    </svg>
+                    <span class="v2-arrival-ring-icon">↻</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Connection Details -->
+              <div class="v2-data-card">
+                <div class="v2-data-row">
+                  <span class="v2-data-key">Connection gate</span>
+                  <span class="v2-data-val v2-val-green" style="font-size: 18px; font-weight: 800;">C22</span>
+                </div>
+                <div class="v2-data-sub">JFK Terminal B</div>
+                <div class="v2-data-divider"></div>
+                <div class="v2-data-row">
+                  <span class="v2-data-key">Walking time</span>
+                  <span class="v2-data-val" style="font-size: 16px; font-weight: 700;">11 min</span>
+                </div>
+                <div class="v2-data-sub">Via terminal connector</div>
+                <div class="v2-data-divider"></div>
+                <div class="v2-data-row">
+                  <span class="v2-data-key">Connection closes</span>
+                  <span class="v2-data-val">3:40 PM</span>
+                </div>
+                <div class="v2-data-divider"></div>
+                <div class="v2-data-row">
+                  <span class="v2-data-key">Time after landing</span>
+                  <span class="v2-data-val v2-val-green">53 min available</span>
+                </div>
+                <div class="v2-data-divider"></div>
+                <div class="v2-data-row">
+                  <span class="v2-data-key">Connection risk</span>
+                  <span class="v2-status-badge v2-badge-green">• Safe</span>
+                </div>
+              </div>
+
+              <!-- Flight Position -->
+              <div class="v2-data-card">
+                <div class="v2-card-header">FLIGHT POSITION</div>
+                <div class="v2-flight-pos">
+                  <span class="v2-fp-code">SFO</span>
+                  <div class="v2-fp-track">
+                    <div class="v2-fp-line"></div>
+                    <div class="v2-fp-marker" style="left: 60%">★</div>
+                  </div>
+                  <span class="v2-fp-code">LHR</span>
+                </div>
+              </div>
+
+              <button class="js-next-btn if-disruption-btn" onclick="goJourneyStep(5)">⚡ Simulate: Flight Cancelled</button>
+              <p class="js-hint-text">This triggers the autonomous agent resolution flow.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN 6: AUTONOMOUS AGENT RESOLUTION -->
+        <div class="screen" id="screen-agent-resolve">
+          <div class="screen-scroll">
+            <div class="journey-screen">
+              <div class="js-step-indicator">
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step active"></div>
+                <div class="js-step"></div>
+                <div class="js-step"></div>
+              </div>
+              <div class="ar-resolved-header">
+                <div class="ar-check-circle">
+                  <svg width="48" height="48" viewBox="0 0 48 48">
+                    <circle cx="24" cy="24" r="22" fill="#22c55e" />
+                    <path d="M14 24l7 7 13-13" stroke="white" stroke-width="3.5" fill="none" stroke-linecap="round"
+                      stroke-linejoin="round" />
+                  </svg>
+                </div>
+                <h2 class="ar-title">Everything's resolved.</h2>
+                <p class="ar-subtitle">Your connecting flight BA118 was cancelled. Journey Air's autonomous agent
+                  handled everything — no action needed from you.</p>
+              </div>
+              <div class="ar-resolution-cards">
+                <div class="ar-card">
+                  <div class="ar-card-header"><span class="ar-card-icon">✈️</span><span class="ar-card-title">New
+                      Flight</span><span class="ar-card-status">Confirmed</span></div>
+                  <div class="ar-card-body">
+                    <div class="ar-detail-row"><span>Route</span><span>LHR → CDG</span></div>
+                    <div class="ar-detail-row"><span>Flight</span><span>AF1081</span></div>
+                    <div class="ar-detail-row"><span>Departs</span><span>10:40 AM (+2h from original)</span></div>
+                    <div class="ar-detail-row"><span>Seat</span><span>8F — Window (matched)</span></div>
+                  </div>
+                </div>
+                <div class="ar-card">
+                  <div class="ar-card-header"><span class="ar-card-icon">🧳</span><span
+                      class="ar-card-title">Baggage</span><span class="ar-card-status">Rerouted</span></div>
+                  <div class="ar-card-body">
+                    <div class="ar-detail-row"><span>Status</span><span>Auto-rerouted to AF1081</span></div>
+                    <div class="ar-detail-row"><span>Tag</span><span>JA-X7K9M2-001</span></div>
+                    <div class="ar-detail-row"><span>Tracking</span><span class="ar-val-good">Live tracking active
+                        ✓</span></div>
+                  </div>
+                </div>
+                <div class="ar-card">
+                  <div class="ar-card-header"><span class="ar-card-icon">🏨</span><span class="ar-card-title">Lounge &
+                      Meal</span><span class="ar-card-status">Provided</span></div>
+                  <div class="ar-card-body">
+                    <div class="ar-detail-row"><span>Lounge</span><span>LHR T5 Galleries First</span></div>
+                    <div class="ar-detail-row"><span>Meal voucher</span><span>£15 loaded to app</span></div>
+                    <div class="ar-detail-row"><span>Cost to you</span><span class="ar-val-good">£0 — covered by
+                        airline</span></div>
+                  </div>
+                </div>
+              </div>
+              <div class="ar-agent-note">
+                <span class="ar-agent-icon">🤖</span>
+                <div>
+                  <strong>Autonomous Agent Log</strong>
+                  <p>Detected cancellation at 6:12 AM → Found 3 alternatives → Selected AF1081 (best match) → Rerouted
+                    baggage → Issued lounge pass → Completed in 47 seconds.</p>
+                </div>
+              </div>
+              <button class="js-next-btn" onclick="goJourneyStep(6)">Continue to arrival →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN 7: BAGGAGE ARRIVAL ALERT -->
+        <div class="screen" id="screen-bag-arrival">
+          <div class="zone-notif-fullscreen bag-arrival-bg">
+            <div class="zn-pulse-ring bag-ring"></div>
+            <div class="zn-pulse-ring zn-ring-2 bag-ring"></div>
+            <div class="zn-content">
+              <div class="ba-icon">🧳</div>
+              <h2 class="zn-title">Your bag has arrived!</h2>
+              <p class="zn-subtitle">It's already at the carousel — before you even got there.</p>
+              <div class="ba-carousel-card">
+                <div class="ba-carousel-num">Carousel 3</div>
+                <div class="ba-carousel-detail">Terminal 2E — Paris CDG</div>
+                <div class="ba-tag-row">
+                  <span class="ba-tag-label">Tag:</span>
+                  <span class="ba-tag-val">JA-X7K9M2-001</span>
+                  <span class="ba-status-dot"></span>
+                  <span class="ba-status-text">Delivered</span>
+                </div>
+              </div>
+              <div class="ba-timeline">
+                <div class="ba-tl-item done"><span class="ba-tl-dot done"></span><span>Loaded at LHR</span><span
+                    class="ba-tl-time">6:30 AM</span></div>
+                <div class="ba-tl-item done"><span class="ba-tl-dot done"></span><span>In transit to CDG</span><span
+                    class="ba-tl-time">8:15 AM</span></div>
+                <div class="ba-tl-item done"><span class="ba-tl-dot done"></span><span>Arrived at CDG</span><span
+                    class="ba-tl-time">10:52 AM</span></div>
+                <div class="ba-tl-item active"><span class="ba-tl-dot active"></span><span>At Carousel 3</span><span
+                    class="ba-tl-time">Now</span></div>
+              </div>
+              <button class="js-next-btn zn-board-btn" onclick="goJourneyStep(7)">Got my bag → Journey Complete</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SCREEN 8: JOURNEY COMPLETE -->
+        <div class="screen" id="screen-journey-complete">
+          <div class="screen-scroll">
+            <div class="journey-screen">
+              <div class="js-step-indicator">
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step done">✓</div>
+                <div class="js-step done active">✓</div>
+              </div>
+              <div class="jc-hero">
+                <div class="jc-emoji">🎊</div>
+                <h2 class="jc-title">Journey Complete</h2>
+                <p class="jc-subtitle">SFO → LHR → CDG — you made it!</p>
+              </div>
+              <div class="jc-stats">
+                <div class="jc-stat"><span class="jc-stat-num">1</span><span class="jc-stat-label">Disruption
+                    handled</span></div>
+                <div class="jc-stat"><span class="jc-stat-num">47s</span><span class="jc-stat-label">Resolution
+                    time</span></div>
+                <div class="jc-stat"><span class="jc-stat-num">0</span><span class="jc-stat-label">Actions
+                    required</span></div>
+              </div>
+              <div class="jc-timeline">
+                <h3 class="jc-tl-title">Your journey timeline</h3>
+                <div class="jc-tl-item"><span class="jc-tl-icon">🪑</span><span class="jc-tl-text">Seat 14A confirmed
+                    with comfort preview</span></div>
+                <div class="jc-tl-item"><span class="jc-tl-icon">🔒</span><span class="jc-tl-text">TSA wait: 18 min —
+                    arrived on schedule</span></div>
+                <div class="jc-tl-item"><span class="jc-tl-icon">🚪</span><span class="jc-tl-text">Boarded via Zone 3,
+                    bins had space</span></div>
+                <div class="jc-tl-item"><span class="jc-tl-icon">✈️</span><span class="jc-tl-text">JA204 SFO→LHR: on
+                    time arrival</span></div>
+                <div class="jc-tl-item disruption"><span class="jc-tl-icon">⚡</span><span class="jc-tl-text">BA118
+                    cancelled — agent resolved in 47s</span></div>
+                <div class="jc-tl-item"><span class="jc-tl-icon">🧳</span><span class="jc-tl-text">Bag at Carousel 3
+                    before you arrived</span></div>
+                <div class="jc-tl-item"><span class="jc-tl-icon">🎊</span><span class="jc-tl-text">Arrived at Paris CDG
+                    — welcome!</span></div>
+              </div>
+              <div class="jc-message">
+                <p>This is <strong>Passenger Certainty</strong>. One disruption, zero stress, everything handled.
+                  Journey Air watched every step so you didn't have to.</p>
+              </div>
+              <button class="js-next-btn" onclick="restartJourney()">↻ Replay Journey Demo</button>
+              <button class="js-skip-btn" onclick="goHome()">Back to home screen</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+          <button class="nav-btn active" onclick="showScreen('screen-home')" id="nav-trip">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            </svg>
+            <span>Trip</span>
+          </button>
+          <button class="nav-btn" onclick="showScreen('screen-boardingpass')" id="nav-boarding">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="4" y="7" width="16" height="13" rx="2" />
+              <path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" />
+              <path d="M4 13h16" />
+            </svg>
+            <span>Board</span>
+          </button>
+          <button class="nav-btn" onclick="showScreen('screen-baggage')" id="nav-baggage">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+            <span>Bag</span>
+          </button>
+          <button class="nav-btn" onclick="showScreen('screen-support')" id="nav-support">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M16 21v-2a4 4 0 00-4-4H8a4 4 0 00-4-4v2" />
+              <circle cx="10" cy="7" r="4" />
+              <path d="M20 8v6M23 11h-6" />
+            </svg>
+            <span>Help</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== AIRLINE DASHBOARD ======== -->
+  <div id="airline-dashboard" class="app-view">
+    <div class="dashboard-layout">
+      <!-- Sidebar -->
+      <aside class="dash-sidebar">
+        <div class="sidebar-logo"><svg class="logo-mark" width="22" height="22" viewBox="0 0 32 32">
+            <circle cx="16" cy="16" r="14" fill="#0770e3" />
+            <path d="M9 20 L16 12 L23 20" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M16 12 L16 22" stroke="white" stroke-width="2" stroke-linecap="round" />
+            <path d="M12 17 L20 17" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.7" />
+          </svg> Journey Air<span class="logo-sub">Operations</span></div>
+        <nav class="sidebar-nav">
+          <a class="nav-item active" data-dash="dash-home" onclick="showDash('dash-home')"><span
+              class="nav-icon">📊</span> Dashboard</a>
+          <a class="nav-item" data-dash="dash-disruptions" onclick="showDash('dash-disruptions')"><span
+              class="nav-icon">⚡</span> Disruptions</a>
+          <a class="nav-item" data-dash="dash-recovery" onclick="showDash('dash-recovery')"><span
+              class="nav-icon">🔄</span> Recovery Queue</a>
+          <a class="nav-item" data-dash="dash-connections" onclick="showDash('dash-connections')"><span
+              class="nav-icon">🛡️</span> Connections</a>
+          <a class="nav-item" data-dash="dash-analytics" onclick="showDash('dash-analytics')"><span
+              class="nav-icon">📈</span> Analytics</a>
+          <a class="nav-item" data-dash="dash-config" onclick="showDash('dash-config')"><span class="nav-icon">⚙️</span>
+            Configuration</a>
+        </nav>
+        <div class="sidebar-user">
+          <div class="user-avatar">SM</div>
+          <div class="user-info"><span class="user-name">Sarah Mitchell</span><span class="user-role">Ops Manager</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="dash-main">
+        <!-- Top Bar -->
+        <div class="dash-topbar">
+          <h1 class="dash-page-title" id="dash-title">Operations Dashboard</h1>
+          <div class="topbar-right">
+            <span class="topbar-date" id="dash-date">April 13, 2026</span>
+            <span class="topbar-notif">🔔<span class="notif-count">4</span></span>
+          </div>
+        </div>
+
+        <!-- Dashboard Home -->
+        <div class="dash-screen active" id="dash-home">
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-value red">12</div>
+              <div class="kpi-label">Active Disruptions</div>
+              <div class="kpi-trend">↑ 3 from yesterday</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-value amber">47</div>
+              <div class="kpi-label">Passengers Pending</div>
+              <div class="kpi-trend">↓ 12 in last hour</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-value green">87%</div>
+              <div class="kpi-label">Auto-Recovery Rate</div>
+              <div class="kpi-trend">↑ 4% vs last week</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-value blue">6</div>
+              <div class="kpi-label">Escalations Open</div>
+              <div class="kpi-trend">↓ 2 resolved</div>
+            </div>
+          </div>
+          <div class="dash-grid-2">
+            <div class="dash-panel">
+              <div class="panel-header">
+                <h3>Live Disruptions</h3><button class="panel-action" onclick="showDash('dash-disruptions')">View All
+                  →</button>
+              </div>
+              <table class="dash-table">
+                <thead>
+                  <tr>
+                    <th>Flight</th>
+                    <th>Route</th>
+                    <th>Type</th>
+                    <th>Pax</th>
+                    <th>Recovery</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>JA204</td>
+                    <td>SFO→LHR</td>
+                    <td><span class="type-badge delay">Delay</span></td>
+                    <td>186</td>
+                    <td>
+                      <div class="mini-ring" data-pct="72"></div>72%
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>JA118</td>
+                    <td>LAX→JFK</td>
+                    <td><span class="type-badge cancel">Cancelled</span></td>
+                    <td>210</td>
+                    <td>
+                      <div class="mini-ring" data-pct="61"></div>61%
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>JA305</td>
+                    <td>ORD→MIA</td>
+                    <td><span class="type-badge delay">Delay</span></td>
+                    <td>142</td>
+                    <td>
+                      <div class="mini-ring" data-pct="89"></div>89%
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>JA520</td>
+                    <td>SEA→DEN</td>
+                    <td><span class="type-badge gate">Gate Chg</span></td>
+                    <td>98</td>
+                    <td>
+                      <div class="mini-ring" data-pct="95"></div>95%
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>JA412</td>
+                    <td>BOS→SFO</td>
+                    <td><span class="type-badge delay">Delay</span></td>
+                    <td>174</td>
+                    <td>
+                      <div class="mini-ring" data-pct="45"></div>45%
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="dash-panel">
+              <div class="panel-header">
+                <h3>Alert Feed</h3>
+              </div>
+              <div class="alert-feed">
+                <div class="feed-item urgent"><span class="feed-time">2m ago</span><span class="feed-text">JA118 LAX→JFK
+                    cancelled — 210 pax recovery initiated</span></div>
+                <div class="feed-item warning"><span class="feed-time">8m ago</span><span class="feed-text">JA204
+                    connection risk: 38 pax with tight LHR connections</span></div>
+                <div class="feed-item info"><span class="feed-time">15m ago</span><span class="feed-text">JA305 delay
+                    extended to 2h 10m — rebooking triggered</span></div>
+                <div class="feed-item success"><span class="feed-time">22m ago</span><span class="feed-text">JA520 gate
+                    change B12→C8 — all 98 pax notified</span></div>
+                <div class="feed-item warning"><span class="feed-time">31m ago</span><span class="feed-text">JA412
+                    BOS→SFO 47 pax unconfirmed after 30 min</span></div>
+                <div class="feed-item info"><span class="feed-time">45m ago</span><span class="feed-text">Auto-recovery
+                    rate today: 87% (target: 85%)</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="quick-actions">
+            <button class="qa-btn" onclick="showDash('dash-recovery')">🔄 View Recovery Queue</button>
+            <button class="qa-btn">🔧 Override a Flight</button>
+            <button class="qa-btn">📊 Generate Report</button>
+          </div>
+        </div>
+
+        <!-- Disruptions Board -->
+        <div class="dash-screen" id="dash-disruptions">
+          <div class="filter-bar">
+            <select class="filter-select">
+              <option>All Airports</option>
+              <option>SFO</option>
+              <option>LAX</option>
+              <option>ORD</option>
+              <option>JFK</option>
+            </select>
+            <select class="filter-select">
+              <option>All Types</option>
+              <option>Delay</option>
+              <option>Cancellation</option>
+              <option>Gate Change</option>
+            </select>
+            <select class="filter-select">
+              <option>All Status</option>
+              <option>Active</option>
+              <option>Resolved</option>
+            </select>
+            <input class="filter-search" placeholder="Search flight..." />
+          </div>
+          <table class="dash-table full">
+            <thead>
+              <tr>
+                <th>Flight</th>
+                <th>Route</th>
+                <th>Type</th>
+                <th>Duration</th>
+                <th>Passengers</th>
+                <th>Confirmed</th>
+                <th>Pending</th>
+                <th>Escalated</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>JA204</strong></td>
+                <td>SFO → LHR</td>
+                <td><span class="type-badge delay">Delay 1h45m</span></td>
+                <td>Active 2h</td>
+                <td>186</td>
+                <td class="green">134</td>
+                <td class="amber">44</td>
+                <td class="red">8</td>
+                <td><button class="action-btn">Manage</button></td>
+              </tr>
+              <tr>
+                <td><strong>JA118</strong></td>
+                <td>LAX → JFK</td>
+                <td><span class="type-badge cancel">Cancelled</span></td>
+                <td>Active 45m</td>
+                <td>210</td>
+                <td class="green">128</td>
+                <td class="amber">64</td>
+                <td class="red">18</td>
+                <td><button class="action-btn">Manage</button></td>
+              </tr>
+              <tr>
+                <td><strong>JA305</strong></td>
+                <td>ORD → MIA</td>
+                <td><span class="type-badge delay">Delay 2h10m</span></td>
+                <td>Active 3h</td>
+                <td>142</td>
+                <td class="green">126</td>
+                <td class="amber">12</td>
+                <td class="red">4</td>
+                <td><button class="action-btn">Manage</button></td>
+              </tr>
+              <tr>
+                <td><strong>JA520</strong></td>
+                <td>SEA → DEN</td>
+                <td><span class="type-badge gate">Gate B12→C8</span></td>
+                <td>Active 1h</td>
+                <td>98</td>
+                <td class="green">93</td>
+                <td class="amber">5</td>
+                <td class="red">0</td>
+                <td><button class="action-btn">Manage</button></td>
+              </tr>
+              <tr>
+                <td><strong>JA412</strong></td>
+                <td>BOS → SFO</td>
+                <td><span class="type-badge delay">Delay 55m</span></td>
+                <td>Active 1.5h</td>
+                <td>174</td>
+                <td class="green">78</td>
+                <td class="amber">82</td>
+                <td class="red">14</td>
+                <td><button class="action-btn">Manage</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Recovery Queue -->
+        <div class="dash-screen" id="dash-recovery">
+          <div class="filter-bar">
+            <select class="filter-select">
+              <option>All Flights</option>
+              <option>JA204</option>
+              <option>JA118</option>
+              <option>JA305</option>
+            </select>
+            <select class="filter-select">
+              <option>All Status</option>
+              <option>Pending</option>
+              <option>Confirmed</option>
+              <option>Escalated</option>
+            </select>
+            <button class="batch-btn">📤 Send Reminder to Selected</button>
+            <button class="batch-btn">🚨 Escalate Batch</button>
+          </div>
+          <table class="dash-table full">
+            <thead>
+              <tr>
+                <th><input type="checkbox" /></th>
+                <th>Passenger</th>
+                <th>Booking</th>
+                <th>Flight</th>
+                <th>Options Sent</th>
+                <th>Waiting</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>M. Dzulfikar</td>
+                <td>SW8274</td>
+                <td>JA204</td>
+                <td>3 options</td>
+                <td class="amber">12m</td>
+                <td><span class="status-pill pending">Pending</span></td>
+                <td><button class="action-btn sm">Remind</button><button class="action-btn sm red">Escalate</button>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>J. Chen</td>
+                <td>SW9301</td>
+                <td>JA204</td>
+                <td>3 options</td>
+                <td class="red">38m</td>
+                <td><span class="status-pill pending">Pending</span></td>
+                <td><button class="action-btn sm">Remind</button><button class="action-btn sm red">Escalate</button>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>A. Müller</td>
+                <td>SW7120</td>
+                <td>JA118</td>
+                <td>3 options</td>
+                <td class="red">44m</td>
+                <td><span class="status-pill escalated">Escalated</span></td>
+                <td><button class="action-btn sm">Open</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>L. Patel</td>
+                <td>SW6455</td>
+                <td>JA305</td>
+                <td>3 options</td>
+                <td class="amber">8m</td>
+                <td><span class="status-pill pending">Pending</span></td>
+                <td><button class="action-btn sm">Remind</button><button class="action-btn sm red">Escalate</button>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>R. Tanaka</td>
+                <td>SW5510</td>
+                <td>JA204</td>
+                <td>2 options</td>
+                <td class="green">2m</td>
+                <td><span class="status-pill confirmed">Confirmed</span></td>
+                <td><button class="action-btn sm">View</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" /></td>
+                <td>K. Williams</td>
+                <td>SW3892</td>
+                <td>JA412</td>
+                <td>3 options</td>
+                <td class="red">51m</td>
+                <td><span class="status-pill escalated">Escalated</span></td>
+                <td><button class="action-btn sm">Open</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Connection Monitor -->
+        <div class="dash-screen" id="dash-connections">
+          <div class="conn-monitor-grid">
+            <div class="conn-passenger-card risk-red">
+              <div class="cp-header"><span class="cp-name">M. Dzulfikar</span><span class="cp-risk">🔴 High Risk</span>
+              </div>
+              <div class="cp-route">JA204 (SFO) → JA512 (LHR)</div>
+              <div class="cp-details"><span>Time remaining: <strong>38 min</strong></span><span>Gate: B14 → C22</span>
+              </div>
+              <div class="cp-actions"><span class="cp-badge">⚡ Priority lane issued</span><span class="cp-badge">🔒
+                  Backup ready</span></div>
+            </div>
+            <div class="conn-passenger-card risk-amber">
+              <div class="cp-header"><span class="cp-name">S. Nakamura</span><span class="cp-risk">🟡 At Risk</span>
+              </div>
+              <div class="cp-route">JA204 (SFO) → JA318 (CDG)</div>
+              <div class="cp-details"><span>Time remaining: <strong>52 min</strong></span><span>Gate: B14 → D08</span>
+              </div>
+              <div class="cp-actions"><span class="cp-badge">⚡ Priority pending</span><span class="cp-badge">🔒 Backup
+                  ready</span></div>
+            </div>
+            <div class="conn-passenger-card risk-amber">
+              <div class="cp-header"><span class="cp-name">E. Rodriguez</span><span class="cp-risk">🟡 At Risk</span>
+              </div>
+              <div class="cp-route">JA305 (ORD) → JA780 (DFW)</div>
+              <div class="cp-details"><span>Time remaining: <strong>48 min</strong></span><span>Gate: A02 → B19</span>
+              </div>
+              <div class="cp-actions"><span class="cp-badge">🔒 Backup ready</span></div>
+            </div>
+            <div class="conn-passenger-card risk-green">
+              <div class="cp-header"><span class="cp-name">P. Anderson</span><span class="cp-risk">🟢 OK</span></div>
+              <div class="cp-route">JA412 (BOS) → JA215 (LAX)</div>
+              <div class="cp-details"><span>Time remaining: <strong>1h 25m</strong></span><span>Gate: C11 → C15</span>
+              </div>
+              <div class="cp-actions"><span class="cp-badge green">✓ Comfortable margin</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytics -->
+        <div class="dash-screen" id="dash-analytics">
+          <div class="analytics-grid">
+            <div class="analytics-card large">
+              <h3>Auto-Recovery Rate (30 days)</h3>
+              <div class="chart-placeholder">
+                <div class="chart-bar-group">
+                  <div class="chart-col">
+                    <div class="chart-bar" style="height:72%"></div><span>W1</span>
+                  </div>
+                  <div class="chart-col">
+                    <div class="chart-bar" style="height:78%"></div><span>W2</span>
+                  </div>
+                  <div class="chart-col">
+                    <div class="chart-bar" style="height:83%"></div><span>W3</span>
+                  </div>
+                  <div class="chart-col">
+                    <div class="chart-bar highlight" style="height:87%"></div><span>W4</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="analytics-card">
+              <h3>Agent Deflection</h3>
+              <div class="big-metric">1,247</div>
+              <div class="metric-sub">contacts avoided this month</div>
+              <div class="metric-savings">Est. savings: <strong>$62,350</strong></div>
+            </div>
+            <div class="analytics-card">
+              <h3>Avg Time to Recovery</h3>
+              <div class="big-metric">4.2<span class="metric-unit">min</span></div>
+              <div class="metric-sub">from disruption to confirmation</div>
+              <div class="metric-trend green">↓ 1.8 min vs last month</div>
+            </div>
+            <div class="analytics-card">
+              <h3>Connection Save Rate</h3>
+              <div class="big-metric">73%</div>
+              <div class="metric-sub">Guardian passengers made connection</div>
+              <div class="metric-trend green">↑ 8% vs last month</div>
+            </div>
+            <div class="analytics-card">
+              <h3>Option Acceptance by Type</h3>
+              <div class="acceptance-bars">
+                <div class="acc-row"><span class="acc-label">Same airline reroute</span>
+                  <div class="acc-bar">
+                    <div class="acc-fill" style="width:62%"></div>
+                  </div><span>62%</span>
+                </div>
+                <div class="acc-row"><span class="acc-label">Partner airline</span>
+                  <div class="acc-bar">
+                    <div class="acc-fill partner" style="width:24%"></div>
+                  </div><span>24%</span>
+                </div>
+                <div class="acc-row"><span class="acc-label">Stay + rebook</span>
+                  <div class="acc-bar">
+                    <div class="acc-fill stay" style="width:14%"></div>
+                  </div><span>14%</span>
+                </div>
+              </div>
+            </div>
+            <div class="analytics-card">
+              <h3>Notification Engagement</h3>
+              <div class="big-metric">94%</div>
+              <div class="metric-sub">push notification open rate</div>
+              <div class="metric-detail">Tap-through: 78% · Avg response: 2.1 min</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Configuration -->
+        <div class="dash-screen" id="dash-config">
+          <div class="config-sections">
+            <div class="config-panel">
+              <h3>Disruption Triggers</h3>
+              <div class="config-row"><label>Rebooking activation delay</label>
+                <div class="config-input"><input type="number" value="90" min="30" max="240" /><span>minutes</span>
+                </div>
+              </div>
+              <div class="config-row"><label>Delay support activation</label>
+                <div class="config-input"><input type="number" value="45" min="15" max="120" /><span>minutes</span>
+                </div>
+              </div>
+              <div class="config-row"><label>Golden Hour trigger</label>
+                <div class="config-input"><input type="number" value="45" min="30" max="120" /><span>minutes</span>
+                </div>
+              </div>
+            </div>
+            <div class="config-panel">
+              <h3>Connection Risk</h3>
+              <div class="config-row"><label>Min connection time (domestic)</label>
+                <div class="config-input"><input type="number" value="45" min="20" max="90" /><span>minutes</span></div>
+              </div>
+              <div class="config-row"><label>Min connection time (int'l)</label>
+                <div class="config-input"><input type="number" value="60" min="30" max="120" /><span>minutes</span>
+                </div>
+              </div>
+              <div class="config-row"><label>Guardian activation buffer</label>
+                <div class="config-input"><input type="number" value="15" min="5" max="30" /><span>minutes</span></div>
+              </div>
+            </div>
+            <div class="config-panel">
+              <h3>Escalation Rules</h3>
+              <div class="config-row"><label>Auto-escalate after no response</label>
+                <div class="config-input"><input type="number" value="45" min="15" max="120" /><span>minutes</span>
+                </div>
+              </div>
+              <div class="config-row"><label>Auto-escalate: minors</label>
+                <div class="config-toggle"><input type="checkbox" checked /><span>Always</span></div>
+              </div>
+              <div class="config-row"><label>Auto-escalate: medical flag</label>
+                <div class="config-toggle"><input type="checkbox" checked /><span>Always</span></div>
+              </div>
+            </div>
+            <div class="config-panel">
+              <h3>Branding</h3>
+              <div class="config-row"><label>Airline name</label><input class="config-text" value="Journey Air" />
+              </div>
+              <div class="config-row"><label>Primary color</label>
+                <div class="config-color"><input type="color" value="#6366f1" /><span>#6366f1</span></div>
+              </div>
+              <div class="config-row"><label>Tone of voice</label><select class="filter-select">
+                  <option>Calm professional</option>
+                  <option>Friendly casual</option>
+                  <option>Formal corporate</option>
+                </select></div>
+            </div>
+          </div>
+          <button class="primary-cta dash-save">Save Configuration</button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

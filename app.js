@@ -1846,6 +1846,27 @@ showScreen = function (screenId) {
 let arInitialAlpha = null;
 let arHasSensors = false;
 
+function _arGetCurrentCheckpoint() {
+    for (let i = 0; i < _arCheckpoints.length; i++) {
+        if (_arCheckpoints[i].status === 'current') {
+            return _arCheckpoints[i];
+        }
+    }
+    // If no current, return the first upcoming, or null if all done
+    for (let i = 0; i < _arCheckpoints.length; i++) {
+        if (_arCheckpoints[i].status === 'upcoming') {
+            _arCheckpoints[i].status = 'current';
+            return _arCheckpoints[i];
+        }
+    }
+    return null;
+}
+
+function _arParseMeters(distStr) {
+    let m = (distStr || '').match(/(\d+)/);
+    return m ? parseInt(m[1], 10) : 0;
+}
+
 function takeSimStep(metersToReduce) {
     const cp = _arGetCurrentCheckpoint();
     if (!cp || cp.status === 'completed') return;

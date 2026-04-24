@@ -6886,7 +6886,7 @@ body {
   gap: 8px !important;
   z-index: 9 !important;
   flex-wrap: wrap !important;
-  max-width: 220px !important;
+  max-width: none !important;
 }
 
 .ar-ctl-btn {

@@ -1841,3 +1841,17 @@ showScreen = function (screenId) {
     }
 };
 
+// ============ AR ORIENTATION ============
+window.addEventListener('deviceorientation', function(event) {
+    const arrow = document.querySelector('.ar-arrow-svg');
+    if (!arrow) return;
+    
+    // Rotate the arrow slightly left/right based on device movement (gamma)
+    if (event.gamma !== null) {
+        // Clamp gamma to prevent full flipping
+        let tilt = Math.max(-60, Math.min(60, event.gamma));
+        arrow.style.transform = `rotate(${tilt}deg)`;
+        arrow.style.transition = 'transform 0.1s ease-out';
+    }
+});
+

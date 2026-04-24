@@ -1841,17 +1841,60 @@ showScreen = function (screenId) {
     }
 };
 
-// ============ AR ORIENTATION ============
+// ============ AR ORIENTATION (Sensors + Mouse Fallback) ============
+let arInitialAlpha = null;
+let arHasSensors = false;
+
 window.addEventListener('deviceorientation', function(event) {
+    if (event.alpha !== null || event.gamma !== null) {
+        arHasSensors = true;
+        const arrow = document.querySelector('.ar-arrow-svg');
+        if (!arrow) return;
+        
+        arrow.style.transformOrigin = 'center';
+
+        if (event.alpha !== null) {
+            if (arInitialAlpha === null) arInitialAlpha = event.alpha;
+            let diff = event.alpha - arInitialAlpha;
+            // Normalize difference to -180 to 180
+            if (diff > 180) diff -= 360;
+            if (diff < -180) diff += 360;
+            
+            // Point back to original target (opposite of turn)
+            let rotation = Math.max(-90, Math.min(90, -diff));
+            arrow.style.transform = `rotate(${rotation}deg)`;
+        } else if (event.gamma !== null) {
+            let tilt = Math.max(-60, Math.min(60, event.gamma));
+            arrow.style.transform = `rotate(${tilt}deg)`;
+        }
+    }
+});
+
+// Mouse & Touch fallback for desktop/simulator testing
+function handleSimRotation(clientX) {
+    if (arHasSensors) return; // Don't interfere if real sensors work
     const arrow = document.querySelector('.ar-arrow-svg');
     if (!arrow) return;
     
-    // Rotate the arrow slightly left/right based on device movement (gamma)
-    if (event.gamma !== null) {
-        // Clamp gamma to prevent full flipping
-        let tilt = Math.max(-60, Math.min(60, event.gamma));
-        arrow.style.transform = `rotate(${tilt}deg)`;
-        arrow.style.transition = 'transform 0.1s ease-out';
+    // Simulate turning based on pointer X position relative to center
+    const centerX = window.innerWidth / 2;
+    const diffX = clientX - centerX;
+    
+    // Map max screen width to roughly 90 degrees rotation
+    const maxRotation = 90;
+    const rotation = (diffX / centerX) * maxRotation;
+    
+    arrow.style.transformOrigin = 'center';
+    arrow.style.transform = `rotate(${rotation}deg)`;
+}
+
+window.addEventListener('mousemove', function(event) {
+    handleSimRotation(event.clientX);
+}, { passive: true });
+
+window.addEventListener('touchmove', function(event) {
+    if (event.touches && event.touches.length > 0) {
+        handleSimRotation(event.touches[0].clientX);
     }
-});
+}, { passive: true });
 

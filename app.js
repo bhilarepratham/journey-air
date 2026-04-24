@@ -1747,18 +1747,32 @@ function updateAROverlay() {
     const cp = _arGetCurrentCheckpoint();
     if (!cp) return;
 
-    const meters = _arParseMeters(cp.distance);
-    const etaMins = Math.max(1, Math.round(meters / 70)); // demo: ~70m/min walking
+    const isAllComplete = _arCheckpoints.every(c => c.status === 'completed');
+    const meters = isAllComplete ? 0 : _arParseMeters(cp.distance);
+    const etaMins = isAllComplete ? 0 : Math.max(1, Math.round(meters / 70)); // demo: ~70m/min walking
 
     const label = document.getElementById('ar-arrow-label');
     const dist = document.getElementById('ar-info-dist');
     const eta = document.getElementById('ar-info-eta');
     const target = document.getElementById('ar-info-target');
 
-    if (label) label.textContent = `${meters}m ahead`;
+    if (label) label.textContent = isAllComplete ? `You've arrived!` : `${meters}m ahead`;
     if (dist) dist.textContent = `${meters}m`;
-    if (eta) eta.textContent = `${etaMins} min`;
+    if (eta) eta.textContent = isAllComplete ? `0 min` : `${etaMins} min`;
     if (target) target.textContent = cp.name;
+
+    const nextBtn = document.querySelector('.ar-next-btn');
+    if (nextBtn) {
+        if (isAllComplete) {
+            nextBtn.textContent = 'Arrived at ' + cp.name + ' ✓';
+            nextBtn.style.opacity = '0.5';
+            nextBtn.style.pointerEvents = 'none';
+        } else {
+            nextBtn.textContent = 'Next checkpoint →';
+            nextBtn.style.opacity = '1';
+            nextBtn.style.pointerEvents = 'auto';
+        }
+    }
 }
 
 async function setARMode(mode) {
@@ -1813,8 +1827,8 @@ function arAdvance() {
 }
 
 // Keep AR overlay fresh when entering AR screen
-const _origShowScreenAR = window.showScreen;
-window.showScreen = function (screenId) {
+const _origShowScreenAR = showScreen;
+showScreen = function (screenId) {
     _origShowScreenAR(screenId);
     if (screenId === 'screen-ar') {
         setTimeout(() => {

@@ -1689,10 +1689,10 @@ function showToast(msg) {
 
 // ============ AR CHECKPOINT GAME ============
 var _arCheckpoints = [
-    { id: 1, name: 'Security Exit', icon: '🛡️', distance: '0m', status: 'completed', xp: 10 },
-    { id: 2, name: 'Duty Free Zone', icon: '🛍️', distance: '45m', status: 'completed', xp: 15 },
-    { id: 3, name: 'Food Court', icon: '🍔', distance: '80m', status: 'current', xp: 10 },
-    { id: 4, name: 'Gate B14', icon: '🚪', distance: '120m', status: 'upcoming', xp: 25 }
+    { id: 1, name: 'Security Exit', icon: '🛡️', distance: '0m', status: 'completed', xp: 10, direction: 'straight' },
+    { id: 2, name: 'Duty Free Zone', icon: '🛍️', distance: '45m', status: 'completed', xp: 15, direction: 'right' },
+    { id: 3, name: 'Food Court', icon: '🍔', distance: '80m', status: 'current', xp: 10, direction: 'straight' },
+    { id: 4, name: 'Gate B14', icon: '🚪', distance: '120m', status: 'upcoming', xp: 25, direction: 'left' }
 ];
 var _arXP = 25;
 var _arTotalXP = 60;
@@ -1842,8 +1842,24 @@ showScreen = function (screenId) {
 };
 
 // ============ AR ORIENTATION (Sensors + Mouse Fallback) ============
+// ============ AR ORIENTATION (Sensors + Mouse Fallback) ============
 let arInitialAlpha = null;
 let arHasSensors = false;
+
+function takeSimStep(metersToReduce) {
+    const cp = _arGetCurrentCheckpoint();
+    if (!cp || cp.status === 'completed') return;
+    let meters = _arParseMeters(cp.distance);
+    meters -= metersToReduce;
+    if (meters <= 0) {
+        cp.distance = '0m';
+        completeCheckpoint(cp.id);
+    } else {
+        cp.distance = Math.round(meters) + 'm';
+    }
+    updateAROverlay();
+    updateARCheckpoints();
+}
 
 window.addEventListener('deviceorientation', function(event) {
     if (event.alpha !== null || event.gamma !== null) {
@@ -1852,6 +1868,11 @@ window.addEventListener('deviceorientation', function(event) {
         if (!arrow) return;
         
         arrow.style.transformOrigin = 'center';
+        
+        let baseRotation = 0;
+        const cp = _arGetCurrentCheckpoint();
+        if (cp && cp.direction === 'right') baseRotation = 90;
+        if (cp && cp.direction === 'left') baseRotation = -90;
 
         if (event.alpha !== null) {
             if (arInitialAlpha === null) arInitialAlpha = event.alpha;
@@ -1861,17 +1882,34 @@ window.addEventListener('deviceorientation', function(event) {
             if (diff < -180) diff += 360;
             
             // Point back to original target (opposite of turn)
-            let rotation = Math.max(-90, Math.min(90, -diff));
+            let rotation = baseRotation + Math.max(-90, Math.min(90, -diff));
             arrow.style.transform = `rotate(${rotation}deg)`;
         } else if (event.gamma !== null) {
             let tilt = Math.max(-60, Math.min(60, event.gamma));
-            arrow.style.transform = `rotate(${tilt}deg)`;
+            arrow.style.transform = `rotate(${baseRotation + tilt}deg)`;
         }
     }
 });
 
+// Step detection using devicemotion
+let arLastStepTime = 0;
+window.addEventListener('devicemotion', function(event) {
+    if (!event.acceleration) return;
+    let acc = event.acceleration;
+    let mag = Math.sqrt(acc.x * acc.x + acc.y * acc.y + acc.z * acc.z);
+    if (mag > 2.5) { // Simple step threshold
+        let now = Date.now();
+        if (now - arLastStepTime > 400) { // At least 400ms between steps
+            arLastStepTime = now;
+            takeSimStep(1.5); // 1 step = ~1.5 meters
+        }
+    }
+});
+
+let arSimLastY = null;
+
 // Mouse & Touch fallback for desktop/simulator testing
-function handleSimRotation(clientX) {
+function handleSimRotation(clientX, clientY) {
     if (arHasSensors) return; // Don't interfere if real sensors work
     const arrow = document.querySelector('.ar-arrow-svg');
     if (!arrow) return;
@@ -1882,19 +1920,37 @@ function handleSimRotation(clientX) {
     
     // Map max screen width to roughly 90 degrees rotation
     const maxRotation = 90;
-    const rotation = (diffX / centerX) * maxRotation;
+    
+    let baseRotation = 0;
+    const cp = _arGetCurrentCheckpoint();
+    if (cp && cp.direction === 'right') baseRotation = 90;
+    if (cp && cp.direction === 'left') baseRotation = -90;
+    
+    const rotation = baseRotation + (diffX / centerX) * maxRotation;
     
     arrow.style.transformOrigin = 'center';
     arrow.style.transform = `rotate(${rotation}deg)`;
+    
+    // Simulate walking forward on drag UP
+    if (arSimLastY !== null && clientY !== undefined) {
+        let dy = arSimLastY - clientY;
+        arSimLastY = clientY;
+        if (dy > 0) takeSimStep(dy * 0.5); // Reduce 0.5m per pixel dragged up
+    }
 }
 
+window.addEventListener('mousedown', function(e) { arSimLastY = e.clientY; }, {passive: true});
+window.addEventListener('mouseup', function() { arSimLastY = null; }, {passive: true});
+window.addEventListener('touchstart', function(e) { if(e.touches.length > 0) arSimLastY = e.touches[0].clientY; }, {passive: true});
+window.addEventListener('touchend', function() { arSimLastY = null; }, {passive: true});
+
 window.addEventListener('mousemove', function(event) {
-    handleSimRotation(event.clientX);
+    handleSimRotation(event.clientX, event.clientY);
 }, { passive: true });
 
 window.addEventListener('touchmove', function(event) {
     if (event.touches && event.touches.length > 0) {
-        handleSimRotation(event.touches[0].clientX);
+        handleSimRotation(event.touches[0].clientX, event.touches[0].clientY);
     }
 }, { passive: true });
 

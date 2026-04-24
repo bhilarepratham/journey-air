@@ -1,0 +1,22 @@
+{
+  "name": "journey-air",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "airline",
+    "passenger",
+    "disruption",
+    "recovery"
+  ],
+  "author": "Luthfi",
+  "license": "ISC",
+  "description": "Journey Air — Passenger Certainty Platform",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1"
+  }
+}
